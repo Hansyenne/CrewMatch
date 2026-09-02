@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,21 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>SkyConnection — Cabin Crew Community</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 
 :root {
-    --primary: #991b1b;
-    --primary-hover: #7f1d1d;
-    --accent: #d97706;
-    --bg-cream: #faf7f2;
+    --primary: #881337;
+    --primary-hover: #4c0519;
+    --accent: #b45309;
+    --bg-cream: #fbf9f6;
     --card-bg: #ffffff;
     --text-main: #1c1917;
     --text-muted: #78716c;
     --border: #e7e2dc;
-    --soft-pink: #fdf2f2;
+    --soft-pink: #fff1f2;
     --green: #15803d;
-    --shadow-subtle: 0 10px 30px -5px rgba(28, 25, 23, 0.05);
-    --shadow-elevated: 0 20px 40px -10px rgba(153, 27, 27, 0.12);
+    --shadow-subtle: 0 10px 30px -5px rgba(28, 25, 23, 0.04);
+    --shadow-elevated: 0 25px 50px -12px rgba(136, 19, 55, 0.08);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -30,210 +31,456 @@ body {
     color: var(--text-main); 
     font-family: "Plus Jakarta Sans", sans-serif; 
     -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
 }
 
 button, input, select, textarea { font: inherit; }
-button { cursor: pointer; transition: all 0.2s ease; min-height: 48px; min-width: 48px; }
+button { cursor: pointer; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); min-height: 48px; min-width: 48px; }
 
 .hidden { display: none !important; }
 .app { min-height: 100vh; }
 
-/* Landing Layout */
-.landing { min-height: 100vh; display: grid; grid-template-columns: 48% 52%; background: linear-gradient(135deg, #fffbf7 0%, #f7ebe1 100%); }
-.hero { padding: 48px 6vw; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-.brand { color: var(--primary); font-weight: 700; font-size: 22px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
-.brand small { display: block; color: var(--text-muted); font-size: 9px; letter-spacing: 3px; font-weight: 500; margin-top: 2px; }
-.hero h1 { font: 600 clamp(40px, 4.5vw, 70px)/1.05 "Playfair Display", serif; color: #291a18; margin: 40px 0 20px; }
-.hero h1 i { display: block; color: var(--primary); font-size: 0.65em; font-style: italic; margin-top: 10px; }
-.hero > p { max-width: 440px; font-size: 15px; line-height: 1.7; color: var(--text-muted); }
+.landing { 
+    min-height: 100vh; 
+    display: grid; 
+    grid-template-columns: 52% 48%; 
+    background: #fbf9f6;
+    position: relative;
+    overflow-x: hidden;
+}
 
-.features { margin-top: 36px; display: grid; gap: 16px; }
-.feature { display: flex; gap: 16px; align-items: center; background: rgba(255,255,255,0.6); padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(231, 226, 220, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-.fi { width: 40px; height: 40px; border-radius: 10px; background: var(--soft-pink); display: grid; place-items: center; color: var(--primary); font-size: 18px; flex-shrink: 0; }
-.feature b { font-size: 13px; color: var(--text-main); }
-.feature span { display: block; color: var(--text-muted); font-size: 11px; margin-top: 1px; }
+.landing::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(136, 19, 55, 0.03) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
 
-.heroquote { font: italic 16px "Playfair Display", serif; color: var(--text-muted); border-left: 2px solid var(--primary); padding-left: 14px; margin-top: 30px; }
+.hero { 
+    padding: 60px 7vw; 
+    position: relative; 
+    z-index: 1;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
 
-.authWrap { padding: 40px 5vw; display: flex; align-items: center; justify-content: center; }
-.auth { width: min(650px, 100%); background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 36px; box-shadow: var(--shadow-elevated); }
-.authHead { display: flex; justify-content: space-between; align-items: flex-start; }
-.title { font: 600 28px "Playfair Display", serif; color: var(--text-main); margin: 0; }
-.sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.switch { border: 1px solid var(--border); background: #fff; color: var(--primary); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 12px; height: auto; min-height: 40px; }
-.switch:hover { background: var(--soft-pink); }
+.brand { 
+    color: var(--primary); 
+    font-weight: 700; 
+    font-size: 16px; 
+    letter-spacing: 2px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
 
-.notice { background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; padding: 12px 14px; border-radius: 12px; font-size: 11px; margin: 14px 0; line-height: 1.5; }
-.notice b { display: block; color: #b45309; margin-bottom: 2px; }
+.brand small { 
+    display: block; 
+    color: var(--text-muted); 
+    font-size: 8px; 
+    letter-spacing: 4px; 
+    font-weight: 600; 
+    margin-top: 3px; 
+}
 
-.tabs { display: flex; border-bottom: 1px solid var(--border); margin: 20px 0; }
-.tab { border: 0; background: none; padding: 12px 16px; color: var(--text-muted); font-weight: 600; font-size: 13px; min-height: 44px; }
-.tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+.hero h1 { 
+    font: 500 clamp(42px, 4.8vw, 68px)/1.08 "Playfair Display", serif; 
+    color: #1a1211; 
+    margin: 36px 0 24px; 
+    letter-spacing: -0.5px;
+}
+
+.hero h1 i { 
+    display: block; 
+    color: var(--primary); 
+    font-size: 0.6em; 
+    font-style: italic; 
+    font-family: "Playfair Display", serif;
+    margin-top: 12px; 
+    font-weight: 400;
+}
+
+.hero > p { 
+    max-width: 460px; 
+    font-size: 15px; 
+    line-height: 1.8; 
+    color: var(--text-muted); 
+    font-weight: 300;
+}
+
+.features { 
+    margin-top: 40px; 
+    display: grid; 
+    gap: 14px; 
+}
+
+.feature { 
+    display: flex; 
+    gap: 16px; 
+    align-items: center; 
+    background: rgba(255, 255, 255, 0.7); 
+    padding: 16px 20px; 
+    border-radius: 16px; 
+    border: 1px solid rgba(231, 226, 220, 0.8); 
+    backdrop-filter: blur(12px); 
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(28, 25, 23, 0.04);
+}
+
+.fi { 
+    width: 42px; 
+    height: 42px; 
+    border-radius: 12px; 
+    background: var(--soft-pink); 
+    display: grid; 
+    place-items: center; 
+    color: var(--primary); 
+    font-size: 16px; 
+    flex-shrink: 0; 
+}
+
+.feature b { 
+    font-size: 13px; 
+    color: var(--text-main); 
+    font-weight: 600;
+}
+
+.feature span { 
+    display: block; 
+    color: var(--text-muted); 
+    font-size: 12px; 
+    margin-top: 2px; 
+    font-weight: 300;
+}
+
+.heroquote { 
+    font: italic 15px/1.6 "Playfair Display", serif; 
+    color: var(--text-muted); 
+    border-left: 2px solid var(--primary); 
+    padding-left: 16px; 
+    margin-top: 36px; 
+}
+
+.authWrap { 
+    padding: 40px 6vw; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(251, 249, 246, 0.5) 0%, rgba(247, 242, 237, 0.8) 100%);
+    border-left: 1px solid rgba(231, 226, 220, 0.5);
+}
+
+.auth { 
+    width: min(580px, 100%); 
+    background: var(--card-bg); 
+    border: 1px solid var(--border); 
+    border-radius: 28px; 
+    padding: 40px; 
+    box-shadow: var(--shadow-elevated); 
+}
+
+.authHead { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+}
+
+.title { 
+    font: 600 26px "Playfair Display", serif; 
+    color: var(--text-main); 
+    margin: 0; 
+    letter-spacing: -0.3px;
+}
+
+.sub { 
+    font-size: 13px; 
+    color: var(--text-muted); 
+    margin-top: 6px; 
+    font-weight: 300;
+}
+
+.switch { 
+    border: 1px solid var(--border); 
+    background: #fff; 
+    color: var(--primary); 
+    padding: 8px 16px; 
+    border-radius: 10px; 
+    font-weight: 600; 
+    font-size: 12px; 
+    height: auto; 
+    min-height: 38px; 
+}
+
+.switch:hover { 
+    background: var(--soft-pink); 
+    border-color: rgba(136, 19, 55, 0.2);
+}
+
+.notice { 
+    background: #fffbeb; 
+    border: 1px solid #fef3c7; 
+    color: #92400e; 
+    padding: 14px 16px; 
+    border-radius: 14px; 
+    font-size: 12px; 
+    margin: 20px 0; 
+    line-height: 1.6; 
+    font-weight: 300;
+}
+
+.notice b { 
+    display: block; 
+    color: #b45309; 
+    margin-bottom: 3px; 
+    font-weight: 600;
+}
+
+.tabs { 
+    display: flex; 
+    border-bottom: 1px solid var(--border); 
+    margin: 24px 0 20px; 
+    gap: 24px;
+}
+
+.tab { 
+    border: 0; 
+    background: none; 
+    padding: 10px 0 14px; 
+    color: var(--text-muted); 
+    font-weight: 500; 
+    font-size: 13px; 
+    min-height: 40px; 
+    position: relative;
+    cursor: pointer;
+}
+
+.tab.active { 
+    color: var(--primary); 
+    font-weight: 600;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+}
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .two { grid-template-columns: 1fr 1fr; }
-h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); margin: 20px 0 8px; font-weight: 700; }
-label.field { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); }
-input, select, textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; background: #fafaf9; padding: 12px 14px; margin-top: 4px; outline: none; font-size: 16px; color: var(--text-main); transition: all 0.2s; -webkit-appearance: none; appearance: none; }
-select { background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
-input:focus, select:focus, textarea:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(153, 27, 27, 0.08); }
+h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin: 24px 0 10px; font-weight: 700; }
+label.field { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.3px; }
+
+input:not([type="checkbox"]), select, textarea { 
+    width: 100%; 
+    border: 1px solid var(--border); 
+    border-radius: 12px; 
+    background: #fcfbfa; 
+    padding: 12px 14px; 
+    margin-top: 6px; 
+    outline: none; 
+    font-size: 14px; 
+    color: var(--text-main); 
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); 
+    -webkit-appearance: none; 
+    appearance: none; 
+}
+
+select { 
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
+    background-repeat: no-repeat; 
+    background-position: right 14px center; 
+    background-size: 14px; 
+    padding-right: 38px; 
+}
+
+input:focus, select:focus, textarea:focus { 
+    border-color: var(--primary); 
+    background: #fff; 
+    box-shadow: 0 0 0 4px rgba(136, 19, 55, 0.06); 
+}
 
 .uploads { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.upload { border: 1px dashed var(--border); border-radius: 12px; padding: 14px; background: #fafaf9; }
+.upload { border: 1px dashed var(--border); border-radius: 14px; padding: 16px; background: #fcfbfa; transition: border-color 0.2s; }
+.upload:hover { border-color: var(--primary); }
 .upload b { font-size: 12px; color: var(--text-main); }
-.upload small { display: block; color: var(--text-muted); margin: 2px 0 6px; font-size: 10px; }
-.upload input { padding: 6px 4px; font-size: 11px; border: none; background: transparent; }
+.upload small { display: block; color: var(--text-muted); margin: 3px 0 8px; font-size: 11px; font-weight: 300; }
+.upload input { padding: 4px 0; font-size: 11px; border: none; background: transparent; }
 
-.code { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 8px; align-items: center; }
-.verified { padding: 0 14px; height: 48px; border-radius: 10px; border: 1px solid #bbf7d0; background: #f0fdf4; color: var(--green); font-size: 11px; font-weight: 600; display: grid; place-items: center; }
-.checks { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
-.checks label { font-size: 12px; color: var(--text-main); display: flex; align-items: center; gap: 8px; cursor: pointer; min-height: 44px; }
-.checks input { width: 20px; height: 20px; margin: 0; }
+.code { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 10px; align-items: center; }
+.verified { padding: 0 16px; height: 48px; border-radius: 12px; border: 1px solid #bbf7d0; background: #f0fdf4; color: var(--green); font-size: 12px; font-weight: 600; display: grid; place-items: center; }
+.checks { display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+.checks label { font-size: 12px; color: var(--text-main); display: flex; align-items: center; gap: 8px; cursor: pointer; min-height: 40px; font-weight: 400; }
+.checks input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
 
-.mainBtn { width: 100%; border: 0; background: var(--primary); color: #fff; padding: 14px; border-radius: 12px; font-weight: 600; margin-top: 16px; box-shadow: 0 4px 12px rgba(153, 27, 27, 0.2); min-height: 50px; }
-.mainBtn:hover { background: var(--primary-hover); transform: translateY(-1px); }
-.msg { text-align: center; font-size: 11px; min-height: 16px; margin-top: 8px; font-weight: 500; }
+.mainBtn { 
+    width: 100%; 
+    border: 0; 
+    background: var(--primary); 
+    color: #fff; 
+    padding: 14px; 
+    border-radius: 14px; 
+    font-weight: 600; 
+    margin-top: 20px; 
+    box-shadow: 0 8px 20px rgba(136, 19, 55, 0.18); 
+    min-height: 52px; 
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+.mainBtn:hover { 
+    background: var(--primary-hover); 
+    transform: translateY(-1px); 
+    box-shadow: 0 10px 25px rgba(136, 19, 55, 0.25);
+}
+
+.msg { text-align: center; font-size: 12px; min-height: 18px; margin-top: 10px; font-weight: 500; }
 .err { color: var(--primary); } .ok { color: var(--green); }
 .loginBox { max-width: 420px; margin: 20px auto; }
-.demo { background: #fafaf9; border: 1px solid var(--border); padding: 14px; border-radius: 12px; font-size: 11px; margin-top: 16px; color: var(--text-muted); line-height: 1.6; }
-.demo b { color: var(--primary); }
+.demo { background: #fcfbfa; border: 1px solid var(--border); padding: 16px; border-radius: 14px; font-size: 11px; margin-top: 20px; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+.demo b { color: var(--primary); font-weight: 600; }
 
-/* Dashboard Experience */
 .dashboard { display: none; min-height: 100vh; background: var(--bg-cream); }
-.dashNav { height: 74px; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 5vw; gap: 24px; position: sticky; top: 0; z-index: 20; }
-.dashBrand { color: var(--primary); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; white-space: nowrap; }
-.navLinks { display: flex; gap: 6px; flex: 1; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.dashNav { height: 76px; background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 5vw; gap: 24px; position: sticky; top: 0; z-index: 20; }
+.dashBrand { color: var(--primary); font-weight: 800; font-size: 17px; letter-spacing: 1px; white-space: nowrap; }
+.navLinks { display: flex; gap: 8px; flex: 1; overflow-x: auto; scrollbar-width: none; }
 .navLinks::-webkit-scrollbar { display: none; }
-.navLinks button { border: 0; background: none; color: var(--text-muted); padding: 10px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; min-height: 44px; }
+.navLinks button { border: 0; background: none; color: var(--text-muted); padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; white-space: nowrap; min-height: 44px; }
 .navLinks button.active, .navLinks button:hover { background: var(--soft-pink); color: var(--primary); }
 
-.avatarMini { width: 40px; height: 40px; border-radius: 50%; background: #e7e2dc; overflow: hidden; display: grid; place-items: center; font-weight: 700; color: var(--primary); border: 2px solid #fff; box-shadow: var(--shadow-subtle); flex-shrink: 0; }
+.avatarMini { width: 42px; height: 42px; border-radius: 50%; background: #e7e2dc; overflow: hidden; display: grid; place-items: center; font-weight: 700; color: var(--primary); border: 2px solid #fff; box-shadow: var(--shadow-subtle); flex-shrink: 0; cursor: pointer; }
 .avatarMini img { width: 100%; height: 100%; object-fit: cover; }
 
-.content { max-width: 1240px; margin: auto; padding: 40px 24px calc(40px + env(safe-area-inset-bottom)); }
+.content { max-width: 1240px; margin: auto; padding: 44px 24px calc(44px + env(safe-area-inset-bottom)); }
 .view { display: none; } .view.active { display: block; }
-.welcome { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; }
-.welcome h2 { font: 600 32px "Playfair Display", serif; margin: 0; color: var(--text-main); }
-.welcome p { color: var(--text-muted); font-size: 13px; margin: 4px 0 0; }
+.welcome { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
+.welcome h2 { font: 600 32px/1.2 "Playfair Display", serif; margin: 0; color: var(--text-main); letter-spacing: -0.5px; }
+.welcome p { color: var(--text-muted); font-size: 13px; margin: 6px 0 0; font-weight: 300; }
 
-.filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
-.filter { padding: 10px 16px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text-main); font-size: 12px; font-weight: 500; box-shadow: var(--shadow-subtle); min-height: 44px; }
-.filter:hover { border-color: var(--primary); color: var(--primary); }
+.discoverContainer { display: flex; justify-content: center; align-items: center; min-height: 540px; }
+.tinderCard { width: min(420px, 100%); background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px; overflow: hidden; box-shadow: var(--shadow-elevated); position: relative; transition: transform 0.3s ease; }
+.tinderPhoto { height: 390px; display: grid; place-items: end start; padding: 24px; background: linear-gradient(145deg, #e7e2dc, #d6cdc4); position: relative; }
+.tinderPhoto img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.online { position: absolute; top: 18px; right: 18px; background: rgba(255,255,255,0.92); backdrop-filter: blur(6px); padding: 6px 14px; border-radius: 20px; font-size: 11px; color: var(--green); font-weight: 700; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 
-.profiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.profileCard { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-subtle); transition: transform 0.2s; }
-.profileCard:hover { transform: translateY(-3px); box-shadow: var(--shadow-elevated); }
-.photo { height: 260px; display: grid; place-items: end start; padding: 16px; background: linear-gradient(145deg, #e7e2dc, #d6cdc4); position: relative; }
-.photo img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-.photo .initials { font: 700 52px "Playfair Display", serif; color: #fff; opacity: 0.9; z-index: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-.online { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); padding: 4px 10px; border-radius: 20px; font-size: 10px; color: var(--green); font-weight: 700; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.tinderBody { padding: 24px; }
+.tinderBody h3 { margin: 0 0 6px; color: var(--text-main); font-size: 22px; font-weight: 700; letter-spacing: -0.3px; font-family: "Playfair Display", serif; }
+.tinderMeta { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; font-weight: 300; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.chip { font-size: 11px; font-weight: 500; padding: 6px 12px; background: var(--soft-pink); color: var(--primary); border-radius: 20px; }
+.tinderActions { display: flex; gap: 12px; }
+.tinderActions button { flex: 1; border: 0; border-radius: 14px; padding: 14px; font-size: 13px; font-weight: 600; min-height: 52px; }
+.passBtn { background: #f5f3f0; color: var(--text-muted); border: 1px solid var(--border); } .passBtn:hover { background: #e7e2dc; color: var(--text-main); }
+.likeBtn { background: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(136, 19, 55, 0.2); } .likeBtn:hover { background: var(--primary-hover); }
 
-.pbody { padding: 16px; }
-.pbody h3 { margin: 0 0 4px; color: var(--text-main); font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-.meta { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
-.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
-.chip { font-size: 10px; font-weight: 500; padding: 5px 10px; background: var(--soft-pink); color: var(--primary); border-radius: 20px; }
-.actions { display: flex; gap: 10px; }
-.actions button { flex: 1; border: 0; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: 600; min-height: 48px; }
-.pass { background: #f5f3f0; color: var(--text-muted); } .pass:hover { background: #e7e2dc; }
-.like { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(153, 27, 27, 0.2); } .like:hover { background: var(--primary-hover); }
-
-.empty { background: var(--card-bg); border: 1px dashed var(--border); padding: 50px; text-align: center; border-radius: 20px; color: var(--text-muted); font-size: 13px; }
+.emptyDeck { background: var(--card-bg); border: 1px dashed var(--border); padding: 60px 24px; text-align: center; border-radius: 28px; color: var(--text-muted); font-size: 14px; width: min(420px, 100%); margin: auto; box-shadow: var(--shadow-subtle); font-weight: 300; }
+.emptyDeck h3 { font-family: "Playfair Display", serif; font-size: 20px; color: var(--text-main); margin-bottom: 10px; }
 
 .cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-subtle); }
-.panel h3 { margin: 0 0 16px; font-size: 16px; color: var(--text-main); }
-.matchList { display: grid; gap: 10px; }
-.match { display: flex; align-items: center; gap: 12px; padding: 10px; background: #fafaf9; border-radius: 12px; border: 1px solid var(--border); }
-.mavatar { width: 44px; height: 44px; border-radius: 50%; background: #e7e2dc; overflow: hidden; display: grid; place-items: center; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+.panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 28px; box-shadow: var(--shadow-subtle); }
+.panel h3 { margin: 0 0 18px; font-size: 15px; color: var(--text-main); font-family: "Playfair Display", serif; text-transform: none; letter-spacing: 0; font-weight: 600; }
+.matchList { display: grid; gap: 12px; }
+.match { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; background: #fcfbfa; border-radius: 16px; border: 1px solid var(--border); }
+.match-info { display: flex; align-items: center; gap: 14px; }
+.mavatar { width: 48px; height: 48px; border-radius: 50%; background: #e7e2dc; overflow: hidden; display: grid; place-items: center; color: var(--primary); font-weight: 700; flex-shrink: 0; }
 .mavatar img { width: 100%; height: 100%; object-fit: cover; }
 .match b { font-size: 13px; color: var(--text-main); }
-.match small { display: block; color: var(--text-muted); font-size: 11px; }
-.match button { margin-left: auto; border: 0; background: var(--primary); color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 11px; font-weight: 600; min-height: 40px; }
+.match small { display: block; color: var(--text-muted); font-size: 11px; font-weight: 300; }
 
-.events { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.event { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 20px; box-shadow: var(--shadow-subtle); display: flex; flex-direction: column; justify-content: space-between; }
-.date { color: var(--primary); font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
-.event h3 { color: var(--text-main); margin: 8px 0; font-size: 16px; }
-.event p { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
-.event button { border: 0; background: var(--soft-pink); color: var(--primary); padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: 11px; width: fit-content; min-height: 40px; }
-.event button:hover { background: var(--primary); color: #fff; }
+.unmatchBtn { background: none; border: 1px solid #fecaca; color: var(--primary); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 600; min-height: auto; min-width: auto; }
+.unmatchBtn:hover { background: var(--soft-pink); }
 
-.chat { display: grid; grid-template-columns: 320px 1fr; height: 620px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-subtle); }
-.chatList { border-right: 1px solid var(--border); padding: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #fafaf9; }
-.chatItem { padding: 12px; border-radius: 12px; display: flex; gap: 12px; align-items: center; cursor: pointer; transition: background 0.15s; min-height: 60px; }
-.chatItem.active, .chatItem:hover { background: #fff; box-shadow: var(--shadow-subtle); }
+.events { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.event { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 24px; box-shadow: var(--shadow-subtle); display: flex; flex-direction: column; justify-content: space-between; }
+.date { color: var(--primary); font-weight: 700; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+.event h3 { color: var(--text-main); margin: 10px 0; font-size: 17px; font-family: "Playfair Display", serif; text-transform: none; letter-spacing: 0; }
+.event p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; font-weight: 300; }
+
+.chat { display: grid; grid-template-columns: 320px 1fr; height: 640px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-subtle); }
+.chatList { border-right: 1px solid var(--border); padding: 18px; overflow-y: auto; background: #fcfbfa; }
 .chatWindow { display: flex; flex-direction: column; }
-.chatHead { padding: 18px 24px; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 15px; background: #fff; }
-.messages { flex: 1; padding: 24px; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 12px; background: #fafaf9; }
-.bubble { max-width: 65%; padding: 12px 16px; border-radius: 14px; background: #fff; border: 1px solid var(--border); font-size: 13px; line-height: 1.5; color: var(--text-main); }
-.bubble.me { align-self: flex-end; background: var(--primary); color: #fff; border: none; }
-.chatInput { display: flex; gap: 10px; padding: 16px 20px; border-top: 1px solid var(--border); background: #fff; }
+.chatHead { padding: 20px 24px; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 15px; background: #fff; display: flex; align-items: center; justify-content: space-between; font-family: "Playfair Display", serif; }
+.messages { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; background: #fcfbfa; }
+.chatInput { display: flex; gap: 12px; padding: 18px 24px; border-top: 1px solid var(--border); background: #fff; }
 .chatInput input { margin: 0; font-size: 14px; }
-.chatInput button { border: 0; background: var(--primary); color: #fff; border-radius: 10px; padding: 0 20px; font-weight: 600; font-size: 12px; min-height: 48px; }
+.chatInput button { border: 0; background: var(--primary); color: #fff; border-radius: 12px; padding: 0 24px; font-weight: 600; font-size: 12px; min-height: 48px; }
 
-.profilePanel { display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
-.profileHero { background: linear-gradient(135deg, #e7e2dc, #d6cdc4); height: 320px; border-radius: 20px; overflow: hidden; display: grid; place-items: center; color: var(--primary); font: 700 70px "Playfair Display"; border: 1px solid var(--border); box-shadow: var(--shadow-subtle); }
+.profilePanel { display: grid; grid-template-columns: 300px 1fr; gap: 28px; }
+.profileHero { background: linear-gradient(135deg, #e7e2dc, #d6cdc4); height: 360px; border-radius: 24px; overflow: hidden; display: grid; place-items: center; color: var(--primary); font: 700 70px "Playfair Display"; border: 1px solid var(--border); box-shadow: var(--shadow-subtle); }
 .profileHero img { width: 100%; height: 100%; object-fit: cover; }
-.settings { display: grid; gap: 10px; }
-.danger { background: var(--soft-pink); border: 1px solid #fecaca; color: var(--primary); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 600; text-align: left; min-height: 48px; display: grid; align-items: center; }
+.settings { display: grid; gap: 12px; }
+.danger { background: var(--soft-pink); border: 1px solid #fecaca; color: var(--primary); padding: 14px; border-radius: 14px; font-size: 12px; font-weight: 600; text-align: left; min-height: 48px; display: grid; align-items: center; cursor: pointer; }
 .danger:hover { background: var(--primary); color: #fff; }
 
-/* Modal Styles */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 25, 23, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: grid; place-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; padding: 20px; }
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 25, 23, 0.45); backdrop-filter: blur(6px); display: grid; place-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1); padding: 20px; }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
-.modal-content { background: var(--card-bg); width: min(500px, 100%); padding: 30px; border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-elevated); max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-header h3 { margin: 0; font-size: 20px; font-family: "Playfair Display", serif; color: var(--text-main); }
-.close-modal { background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; min-height: 44px; min-width: 44px; display: grid; place-items: center; }
+.modal-content { background: var(--card-bg); width: min(520px, 100%); padding: 36px; border-radius: 28px; border: 1px solid var(--border); box-shadow: var(--shadow-elevated); max-height: 90vh; overflow-y: auto; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.modal-header h3 { margin: 0; font-size: 22px; font-family: "Playfair Display", serif; color: var(--text-main); letter-spacing: -0.3px; text-transform: none; }
+.close-modal { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; min-height: 44px; min-width: 44px; display: grid; place-items: center; border-radius: 50%; }
+.close-modal:hover { background: #f5f3f0; color: var(--text-main); }
 
-.toast { position: fixed; right: 20px; bottom: 20px; background: var(--text-main); color: #fff; padding: 14px 20px; border-radius: 12px; font-size: 12px; font-weight: 500; opacity: 0; transform: translateY(10px); transition: all 0.25s ease; z-index: 999; box-shadow: var(--shadow-elevated); }
+.toast { position: fixed; right: 24px; bottom: 24px; background: var(--text-main); color: #fff; padding: 16px 24px; border-radius: 14px; font-size: 13px; font-weight: 500; opacity: 0; transform: translateY(12px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 999; box-shadow: var(--shadow-elevated); }
 .toast.show { opacity: 1; transform: none; }
 
-@media(max-width: 1000px) {
+@media(max-width: 1024px) {
   .landing { grid-template-columns: 1fr; }
-  .hero { min-height: 500px; padding: 32px 5vw; }
-  .profiles { grid-template-columns: repeat(2, 1fr); }
+  .hero { min-height: auto; padding: 50px 6vw; }
+  .authWrap { border-left: none; border-top: 1px solid rgba(231, 226, 220, 0.8); }
   .events { grid-template-columns: 1fr 1fr; }
   .profilePanel { grid-template-columns: 1fr; }
 }
 @media(max-width: 650px) {
   .grid, .two, .uploads { grid-template-columns: 1fr; }
-  .profiles, .events, .cards2 { grid-template-columns: 1fr; }
-  .dashNav { gap: 12px; padding: 0 16px; height: 64px; }
+  .events, .cards2 { grid-template-columns: 1fr; }
+  .dashNav { gap: 12px; padding: 0 16px; height: 68px; }
   .content { padding: 24px 16px; }
-  .chat { grid-template-columns: 1fr; height: 500px; }
+  .chat { grid-template-columns: 1fr; height: 520px; }
   .chatList { display: none; }
+  .auth { padding: 24px; }
 }
 </style>
 </head>
 <body>
 
-<!-- AUTH EXPERIENCE -->
 <div id="landing" class="landing">
 <section class="hero">
 <div>
 <div class="brand">♡✈ SKYCONNECTION<small>CABIN CREW COMMUNITY</small></div>
-<h1>More Than<br>Just Dating.<i>It's a Lifestyle.</i></h1>
-<p>A private community created exclusively for cabin crew — for dating, genuine friendships, curated gatherings, lifestyle activities, and the people who truly understand the aviation schedule.</p>
+<h1>Where Aviation<br>Connects.<i>A curated lifestyle experience.</i></h1>
+<p>An elite, private community created exclusively for cabin crew — designed for meaningful dating, genuine global friendships, curated gatherings, and lifestyle experiences tailored around your aviation schedule.</p>
 </div>
 <div class="features">
-<div class="feature"><div class="fi">♡</div><div><b>Find Connections</b><span>Meet verified crew open to genuine relationships.</span></div></div>
-<div class="feature"><div class="fi">♧</div><div><b>Make Friends</b><span>Build a global network across top international carriers.</span></div></div>
-<div class="feature"><div class="fi">◫</div><div><b>Gatherings & Events</b><span>Discover crew dinners, layover meetups and brunches.</span></div></div>
-</div><div class="heroquote">“We don't just connect flights, we connect hearts.”</div>
+<div class="feature"><div class="fi">♡</div><div><b>Verified Connections</b><span>Meet vetted cabin crew open to authentic relationships.</span></div></div>
+<div class="feature"><div class="fi">♧</div><div><b>Global Network</b><span>Build lifelong friendships across top international carriers.</span></div></div>
+<div class="feature"><div class="fi">◫</div><div><b>Curated Gatherings</b><span>Discover exclusive crew dinners, layover meetups and hobby sessions.</span></div></div>
+</div><div class="heroquote">“We don't just connect flights, we connect hearts across every time zone.”</div>
 </section>
 
 <section class="authWrap">
 <div class="auth">
-<div class="authHead"><div><h2 class="title" id="authTitle">Create Your Account</h2><div class="sub" id="authSub">Join the exclusive global cabin crew network</div></div><button class="switch" id="switchBtn">Log In</button></div>
-<div class="tabs"><button class="tab active" id="signupTab">Sign Up</button><button class="tab" id="loginTab">Log In</button></div>
+<div class="authHead"><div><h2 class="title" id="authTitle">Create Your Account</h2><div class="sub" id="authSub">Join the exclusive global cabin crew network</div></div><button class="switch" id="switchBtn" type="button">Log In</button></div>
+<div class="tabs"><button class="tab active" id="signupTab" type="button">Sign Up</button><button class="tab" id="loginTab" type="button">Log In</button></div>
 
 <div id="signupBox">
-<div class="notice"><b>Verification Required</b>Upload a valid airline Facecard or Platinum Card with your staff ID. Bypassed instantly with an official verification code.</div>
+<div class="notice"><b>Verification Required</b>Upload a valid airline Facecard or Platinum Card with your staff ID, or enter your confidential verification code to bypass instantly.</div>
 <form id="signupForm">
 <h3>Account Credentials</h3>
 <div class="grid two">
@@ -247,7 +494,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
 <label class="field">Last Name<input required name="last" placeholder="Last Name"></label>
 <label class="field">Date of Birth<input required type="date" name="dob"></label>
 </div>
-<div class="grid two" style="margin-top:10px">
+<div class="grid two" style="margin-top:12px">
 <label class="field">Gender
   <select required name="gender">
     <option value="">Select Gender</option>
@@ -261,38 +508,15 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
   <select required name="nationality">
     <option value="">Select Nationality</option>
     <option value="American">American</option>
-    <option value="Argentine">Argentine</option>
     <option value="Australian">Australian</option>
-    <option value="Bangladeshi">Bangladeshi</option>
-    <option value="Brazilian">Brazilian</option>
     <option value="British">British</option>
     <option value="Canadian">Canadian</option>
-    <option value="Chinese">Chinese</option>
-    <option value="Colombian">Colombian</option>
-    <option value="Egyptian">Egyptian</option>
     <option value="Emirati">Emirati</option>
-    <option value="Ethiopian">Ethiopian</option>
     <option value="French">French</option>
     <option value="German">German</option>
     <option value="Indian">Indian</option>
-    <option value="Indonesian">Indonesian</option>
     <option value="Italian">Italian</option>
-    <option value="Japanese">Japanese</option>
-    <option value="Kenyan">Kenyan</option>
-    <option value="Lebanese">Lebanese</option>
-    <option value="Mexican">Mexican</option>
-    <option value="Nigerian">Nigerian</option>
-    <option value="Pakistani">Pakistani</option>
-    <option value="Philippine">Philippine</option>
-    <option value="Polish">Polish</option>
-    <option value="Portuguese">Portuguese</option>
-    <option value="Russian">Russian</option>
-    <option value="Saudi">Saudi</option>
-    <option value="South African">South African</option>
-    <option value="South Korean">South Korean</option>
     <option value="Spanish">Spanish</option>
-    <option value="Turkish">Turkish</option>
-    <option value="Vietnamese">Vietnamese</option>
     <option value="Other">Other</option>
   </select>
 </label>
@@ -327,14 +551,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
   <input type="url" name="avatarUrl" placeholder="Leave blank to auto-assign a stunning curated photo">
 </label>
 
-<h3>Verification Document <small>(Provide one)</small></h3>
+<h3>Verification Document <small style="font-weight:normal">(Provide one)</small></h3>
 <div class="uploads">
   <div class="upload"><b>▣ Facecard</b><small>Airline ID Facecard</small><input type="file" name="facecard" accept=".jpg,.jpeg,.png,.pdf"></div>
   <div class="upload"><b>▤ Platinum Card</b><small>Frequent Flyer / Status Card</small><input type="file" name="platinum" accept=".jpg,.jpeg,.png,.pdf"></div>
 </div>
 
 <div class="code">
-  <input id="verifyCode" placeholder="Enter verification code">
+  <input id="verifyCode" placeholder="Enter confidential verification code">
   <div id="verifyStatus" class="verified">Pending</div>
 </div>
 
@@ -367,11 +591,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
   <label><input type="checkbox" name="purpose" value="Activities"> Activities</label>
 </div>
 
-<label style="font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:8px;min-height:44px">
-  <input required type="checkbox" style="width:20px;height:20px;margin:0"> I agree to the Community Terms of Service and Privacy Guidelines.
+<label style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:10px;min-height:44px;font-weight:300">
+  <input required type="checkbox" style="width:18px;height:18px;margin:0;accent-color:var(--primary)"> I agree to the Community Terms of Service and Privacy Guidelines.
 </label>
 
-<button class="mainBtn">Create Account ♡</button>
+<button class="mainBtn" type="submit">Create Account ♡</button>
 <div id="signupMsg" class="msg"></div>
 </form>
 </div>
@@ -380,11 +604,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
 <div class="notice"><b>Welcome Back</b>Log in securely to connect with verified colleagues across global destinations.</div>
 <form id="loginForm">
 <label class="field">Email<input required id="loginEmail" type="email" placeholder="you@airline.com"></label>
-<label class="field" style="display:block;margin-top:12px">Password<input required id="loginPassword" type="password" placeholder="Your password"></label>
-<button class="mainBtn">Log In</button>
+<label class="field" style="display:block;margin-top:14px">Password<input required id="loginPassword" type="password" placeholder="Your password"></label>
+<button class="mainBtn" type="submit">Log In</button>
 <div id="loginMsg" class="msg"></div>
 </form>
-<div class="demo"><b>Demo Accounts</b><br>alex@skyconnection.demo / demo123<br>sofia@skyconnection.demo / demo123<br><br><b>Admin Prototype:</b> admin@skyconnection.demo / admin123</div>
+<div class="demo"><b>Demo Accounts</b><br>alex@skyconnection.demo / demo123<br>sofia@skyconnection.demo / demo123<br>zara@skyconnection.demo / demo123<br>liam@skyconnection.demo / demo123</div>
 </div>
 </div>
 </section>
@@ -394,29 +618,27 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
 <div id="dashboard" class="dashboard">
 <nav class="dashNav">
   <div class="dashBrand">♡✈ SKYCONNECTION</div>
-  <div class="navLinks">
-    <button data-view="discover" class="active">Discover</button>
-    <button data-view="matches">Matches</button>
-    <button data-view="messages">Messages</button>
-    <button data-view="events">Gatherings</button>
-    <button data-view="activities">Activities</button>
-    <button data-view="profile">My Profile</button>
+  <div class="navLinks" id="navLinksContainer">
+    <button data-view="discover" class="active" type="button">Discover</button>
+    <button data-view="matches" type="button">Matches</button>
+    <button data-view="messages" id="navMessagesBtn" type="button">Messages</button>
+    <button data-view="events" type="button">Gatherings & Activities</button>
+    <button data-view="profile" type="button">My Profile</button>
   </div>
-  <div class="avatarMini" id="navAvatar">A</div>
+  <div class="avatarMini" id="navAvatar" title="My Profile">A</div>
 </nav>
 
 <main class="content">
 <section id="discover" class="view active">
 <div class="welcome"><div><h2>Discover your crew</h2><p>Verified aviation professionals matching your lifestyle preferences.</p></div></div>
-<div class="filters"><button class="filter">♡ Dating</button><button class="filter">♧ Friendship</button><button class="filter">✈ Nearby Bases</button><button class="filter">✓ Verified Only</button></div>
-<div id="profileGrid" class="profiles"></div>
+<div id="discoverArea" class="discoverContainer"></div>
 </section>
 
 <section id="matches" class="view">
 <div class="welcome"><div><h2>Your Matches</h2><p>Connections mutual and established.</p></div></div>
 <div class="cards2">
   <div class="panel"><h3>Recent Matches</h3><div id="matchesList" class="matchList"></div></div>
-  <div class="panel"><h3>Connection Tip</h3><p style="font-size:13px;line-height:1.7;color:var(--text-muted)">Start with something personal: ask about their favourite layover destination, coffee spot, or roster memory rather than a generic opening line.</p></div>
+  <div class="panel"><h3>Connection Tip</h3><p style="font-size:13px;line-height:1.8;color:var(--text-muted);font-weight:300">Start with something personal: ask about their favourite layover destination, coffee spot, or roster memory rather than a generic opening line.</p></div>
 </div>
 </section>
 
@@ -425,21 +647,22 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
 <div class="chat">
   <div class="chatList" id="chatList"></div>
   <div class="chatWindow">
-    <div class="chatHead" id="chatHead">Select a conversation</div>
-    <div class="messages" id="messages"></div>
-    <div class="chatInput"><input id="chatInput" placeholder="Write a message..."><button id="sendBtn">Send</button></div>
+    <div class="chatHead" id="chatHead">
+      <span id="chatHeadTitle">Select a conversation</span>
+      <div id="chatHeadAction"></div>
+    </div>
+    <div class="messages" id="messagesContainer"></div>
+    <div class="chatInput">
+      <input id="chatInput" placeholder="Write a message...">
+      <button id="sendBtn" type="button">Send</button>
+    </div>
   </div>
 </div>
 </section>
 
 <section id="events" class="view">
-<div class="welcome"><div><h2>Gatherings</h2><p>Exclusive meet-ups beyond the flight deck.</p></div></div>
+<div class="welcome"><div><h2>Gatherings & Activities</h2><p>Exclusive meet-ups, layover excursions, and lifestyle hobbies beyond the flight deck.</p></div></div>
 <div id="eventsGrid" class="events"></div>
-</section>
-
-<section id="activities" class="view">
-<div class="welcome"><div><h2>Activities</h2><p>Find colleagues sharing your interests and hobbies.</p></div></div>
-<div id="activitiesGrid" class="events"></div>
 </section>
 
 <section id="profile" class="view">
@@ -447,13 +670,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
 <div class="profilePanel">
   <div class="profileHero" id="profileHero">A</div>
   <div class="panel">
-    <h3 id="profileName">Your Profile</h3>
-    <div id="profileDetails" style="font-size:13px;line-height:1.8;color:var(--text-muted)"></div>
-    <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
+    <h3 id="profileName" style="font-size:20px;margin-bottom:12px;">Your Profile</h3>
+    <div id="profileDetails" style="font-size:13px;line-height:1.9;color:var(--text-muted);font-weight:300"></div>
+    <hr style="border:0;border-top:1px solid var(--border);margin:24px 0">
     <div class="settings">
-      <button class="filter" onclick="openEditModal()" style="width:100%;text-align:center;">Edit Profile</button>
-      <button class="filter" onclick="toast('Privacy settings preferences saved.')">Privacy Settings</button>
-      <button class="danger" onclick="logout()">Log Out</button>
+      <button class="mainBtn" onclick="openEditModal()" style="width:100%;text-align:center;margin-top:0;" type="button">Edit Profile</button>
+      <button class="mainBtn" onclick="openPrivacyModal()" style="width:100%;text-align:center;margin-top:0;background:var(--accent);" type="button">Privacy Settings</button>
+      <button class="danger" onclick="logout()" type="button">Log Out</button>
     </div>
   </div>
 </div>
@@ -461,273 +684,506 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); backgr
 </main>
 </div>
 
+<!-- EVENT DETAILS MODAL -->
+<div id="eventModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalEventTitle">Event Details</h3>
+      <button class="close-modal" onclick="closeEventModal()" type="button">&times;</button>
+    </div>
+    <div id="modalEventBody" style="font-size: 13px; color: var(--text-muted); line-height: 1.8; font-weight: 300;"></div>
+    <div style="margin-top: 28px; display: flex; gap: 12px;">
+      <button id="modalJoinBtn" class="mainBtn" style="margin-top:0;" type="button">Join Event</button>
+      <button onclick="closeEventModal()" class="passBtn" style="border-radius: 14px; padding: 14px; font-weight: 600; font-size: 13px; border: 1px solid var(--border);" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT PROFILE MODAL -->
 <div id="editModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
       <h3>Edit Your Profile</h3>
-      <button class="close-modal" onclick="closeEditModal()">&times;</button>
+      <button class="close-modal" onclick="closeEditModal()" type="button">&times;</button>
     </div>
     <form id="editForm">
       <label class="field">Full Name<input required id="editName" name="name"></label>
-      <label class="field" style="margin-top:12px">Base / Location<input required id="editLocation" name="location"></label>
-      <label class="field" style="margin-top:12px">Role<select id="editRole" name="role"><option>Cabin Crew</option><option>Senior Cabin Crew</option><option>Purser</option><option>Former Cabin Crew</option></select></label>
-      <label class="field" style="margin-top:12px">Profile Picture URL<input id="editAvatar" name="avatar" placeholder="https://..."></label>
-      <label class="field" style="margin-top:12px">About You<textarea id="editAbout" name="about" rows="3"></textarea></label>
-      <button type="submit" class="mainBtn" style="margin-top:20px">Save Changes</button>
+      <label class="field" style="margin-top:14px">Base / Location<input required id="editLocation" name="location"></label>
+      <label class="field" style="margin-top:14px">Role<select id="editRole" name="role"><option value="Cabin Crew">Cabin Crew</option><option value="Senior Cabin Crew">Senior Cabin Crew</option><option value="Purser">Purser</option><option value="Former Cabin Crew">Former Cabin Crew</option></select></label>
+      <label class="field" style="margin-top:14px">Profile Picture URL<input type="url" id="editAvatar" name="avatarUrl"></label>
+      <button class="mainBtn" type="submit">Save Changes</button>
     </form>
   </div>
 </div>
 
-<div id="toast" class="toast"></div>
+<!-- PRIVACY SETTINGS MODAL -->
+<div id="privacyModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Privacy Settings</h3>
+      <button class="close-modal" onclick="closePrivacyModal()" type="button">&times;</button>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);line-height:1.8;font-weight:300;">
+      <p>Manage who can see your profile and discovery visibility within the community network.</p>
+      <div class="checks" style="flex-direction:column;gap:12px;margin:20px 0;">
+        <label><input type="checkbox" checked> Show profile in global discovery stack</label>
+        <label><input type="checkbox" checked> Allow direct messages from verified crew</label>
+        <label><input type="checkbox" checked> Display active airline & base badge</label>
+      </div>
+    </div>
+    <button class="mainBtn" onclick="closePrivacyModal()" style="margin-top:0;">Save Preferences</button>
+  </div>
+</div>
+
+<div id="toast" class="toast">Action completed successfully</div>
 
 <script>
-const VERIFY_CODE="XCOM269";
-
-const femaleAvatars = [
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400",
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400",
-    "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400",
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400"
+// Mock Database & State Management
+let users = [
+  { id: '1', email: 'alex@skyconnection.demo', password: 'demo123', name: 'Alex Rivers', location: 'Dubai', role: 'Purser', airline: 'Emirates', avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80', bio: 'Exploring the world one layover at a time. Coffee enthusiast & amateur photographer.' },
+  { id: '2', email: 'sofia@skyconnection.demo', password: 'demo123', name: 'Sofia Vance', location: 'London', role: 'Senior Cabin Crew', airline: 'British Airways', avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80', bio: 'London based. Always down for brunch, museums, and exploring vintage markets.' },
+  { id: '3', email: 'zara@skyconnection.demo', password: 'demo123', name: 'Zara Al-Maktoum', location: 'Dubai', role: 'Cabin Crew', airline: 'Emirates', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80', bio: 'Aviation geek, fitness lover, and luxury travel seeker.' },
+  { id: '4', email: 'liam@skyconnection.demo', password: 'demo123', name: 'Liam O’Connor', location: 'Doha', role: 'Purser', airline: 'Qatar Airways', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80', bio: 'Globetrotter and wine connoisseur looking for travel buddies.' }
 ];
 
-const maleAvatars = [
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
-    "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400",
-    "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400",
-    "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400",
-    "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400"
+let currentUser = null;
+let passedUserIds = {}; // Stores passed user IDs per current user: { userId: { targetId: true } }
+let matches = {};       // Stores established matches: { userId: [targetId, ...] }
+let chats = {};         // Stores messages: { "user1_user2": [{sender, text}] }
+
+// Events Data
+const eventsData = [
+  { id: 1, date: 'SEP 14, 2026', title: 'DXB Crew Sunset Dinner', desc: 'Join fellow Emirates and flydubai crew for an exclusive rooftop dinner overlooking Dubai Marina.', location: 'Address Sky View, Dubai' },
+  { id: 2, date: 'SEP 22, 2026', title: 'London Layover Coffee Meetup', desc: 'Casual morning coffee and stroll through Covent Garden for visiting and local crew.', location: 'Covent Garden, London' },
+  { id: 3, date: 'OCT 05, 2026', title: 'Doha Aviation Fitness Run', desc: 'Morning beachfront jog along the Doha Corniche followed by fresh juices.', location: 'Corniche Promenade, Doha' }
 ];
 
-const neutralAvatars = [
-    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400"
-];
+// Switch Auth Views
+document.getElementById('switchBtn').addEventListener('click', toggleAuthMode);
+document.getElementById('signupTab').addEventListener('click', () => setAuthTab('signup'));
+document.getElementById('loginTab').addEventListener('click', () => setAuthTab('login'));
 
-const demoUsers=[
-{id:"u1",email:"alex@skyconnection.demo",password:"demo123",name:"Alex Morgan",age:29,gender:"Man",nationality:"British",airline:"Emirates",role:"Senior Cabin Crew",location:"Dubai",tags:["Travel","Fitness","Coffee"],verified:true,online:true,avatar:maleAvatars[0],about:"Always looking for a great layover, good coffee and better company."},
-{id:"u2",email:"sofia@skyconnection.demo",password:"demo123",name:"Sofia Laurent",age:27,gender:"Woman",nationality:"French",airline:"Etihad Airways",role:"Cabin Crew",location:"Abu Dhabi",tags:["Food","Beach","Photography"],verified:true,online:true,avatar:femaleAvatars[0],about:"French soul, UAE base. Love exploring new places between flights."},
-{id:"u3",email:"liam@skyconnection.demo",password:"demo123",name:"Liam Carter",age:31,gender:"Man",nationality:"Australian",airline:"Qatar Airways",role:"Purser",location:"Doha",tags:["Running","Aviation","Music"],verified:true,online:false,avatar:maleAvatars[1],about:"Purser by day, amateur DJ by night."},
-{id:"u4",email:"mia@skyconnection.demo",password:"demo123",name:"Mia Santos",age:28,gender:"Woman",nationality:"Philippine",airline:"Emirates",role:"Cabin Crew",location:"Dubai",tags:["Yoga","Brunch","Art"],verified:true,online:true,avatar:femaleAvatars[1],about:"Collecting passport stamps and finding the best brunch spots."},
-{id:"u5",email:"noah@skyconnection.demo",password:"demo123",name:"Noah Williams",age:34,gender:"Man",nationality:"American",airline:"Etihad Airways",role:"Senior Cabin Crew",location:"Dubai",tags:["Cars","Gym","Travel"],verified:true,online:false,avatar:maleAvatars[2],about:"Weekend road trips and long-haul stories."},
-{id:"u6",email:"emma@skyconnection.demo",password:"demo123",name:"Emma Rossi",age:30,gender:"Woman",nationality:"Italian",airline:"flydubai",role:"Cabin Crew",location:"Dubai",tags:["Cooking","Dogs","Beach"],verified:true,online:true,avatar:femaleAvatars[2],about:"Food lover with a soft spot for sunset flights."},
-{id:"u7",email:"daniel@skyconnection.demo",password:"demo123",name:"Daniel Kim",age:26,gender:"Man",nationality:"South Korean",airline:"Emirates",role:"Cabin Crew",location:"Dubai",tags:["Gaming","Sushi","Gym"],verified:true,online:true,avatar:maleAvatars[3],about:"I know every good sushi place in Dubai."},
-{id:"u8",email:"clara@skyconnection.demo",password:"demo123",name:"Clara Evans",age:33,gender:"Woman",nationality:"British",airline:"Qatar Airways",role:"Purser",location:"Doha",tags:["Books","Coffee","Hiking"],verified:true,online:false,avatar:femaleAvatars[3],about:"Books, mountains and a quiet coffee after a busy flight."}
-];
-
-const events=[
-["SEP 12","Crew Sunset Dinner","Dubai · 7:30 PM","A relaxed evening for verified crew members to meet, eat and connect over incredible food."],
-["SEP 20","Beach & Brunch","Jumeirah · 10:30 AM","Brunch followed by a beach afternoon with flight crew from multiple international airlines."],
-["OCT 03","Layover Stories Night","Dubai · 8:00 PM","Funny, strange and unforgettable aviation stories shared over drinks and dinner."]
-];
-
-const activities=[
-["✈","Destination Swap","Tell us your favourite layover city and meet someone who loves exploring it too."],
-["☕","Coffee Crew","Small coffee meet-ups designed for crew who prefer casual daytime conversations."],
-["🏃","Crew Fitness","Running, gym and wellness groups structured around shifting roster schedules."],
-["📷","Aviation Photography","Share airport architecture, dramatic wing views and travel tips."],
-["🍽","Food Explorers","Discover hidden gem restaurants together when your roster grants a free evening."],
-["🎨","Creative Crew","Art, music, books and creative pursuits with like-minded aviation colleagues."]
-];
-
-let users=[...demoUsers,...JSON.parse(localStorage.getItem("sky_users")||"[]")];
-let current=null, liked=JSON.parse(localStorage.getItem("sky_likes")||"[]"), chats=JSON.parse(localStorage.getItem("sky_chats")||"{}"), activeChat=null;
-
-const $=id=>document.getElementById(id);
-function save(){
-  localStorage.setItem("sky_users",JSON.stringify(users.filter(u=>!demoUsers.find(d=>d.id===u.id))));
-  localStorage.setItem("sky_likes",JSON.stringify(liked));
-  localStorage.setItem("sky_chats",JSON.stringify(chats));
-}
-function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200)}
-function initials(n){return n.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase()}
-
-function showLogin(){ $("signupBox").classList.add("hidden");$("loginBox").classList.remove("hidden");$("signupTab").classList.remove("active");$("loginTab").classList.add("active");$("authTitle").textContent="Welcome Back";$("authSub").textContent="Log in securely to your cabin crew profile"}
-function showSignup(){ $("loginBox").classList.add("hidden");$("signupBox").classList.remove("hidden");$("loginTab").classList.remove("active");$("signupTab").classList.add("active");$("authTitle").textContent="Create Your Account";$("authSub").textContent="Join the exclusive global cabin crew network"}
-$("switchBtn").onclick=()=>{$("loginBox").classList.contains("hidden")?showLogin():showSignup()};
-$("loginTab").onclick=showLogin;$("signupTab").onclick=showSignup;
-$("verifyCode").addEventListener("input",e=>{const ok=e.target.value.trim().toUpperCase()===VERIFY_CODE;$("verifyStatus").textContent=ok?"✓ Verified":"Pending";$("verifyStatus").style.color=ok?"var(--green)":"var(--text-muted)";$("verifyStatus").style.borderColor=ok?"#bbf7d0":"var(--border)"});
-
-$("signupForm").onsubmit=e=>{
-  e.preventDefault();const f=new FormData(e.target), code=$("verifyCode").value.trim().toUpperCase(), face=f.get("facecard"),plat=f.get("platinum");
-  if(code!==VERIFY_CODE && (!face||!face.name)&&(!plat||!plat.name)){return setMsg("signupMsg","Upload a verification document or enter the authorized code.","err")}
-  const purposes=[...document.querySelectorAll('input[name="purpose"]:checked')].map(x=>x.value);if(!purposes.length)return setMsg("signupMsg","Select at least one intent.","err");
-  if(users.some(u=>u.email.toLowerCase()===f.get("email").toLowerCase()))return setMsg("signupMsg","An account with this email already exists.","err");
-
-  let avatarUrl = f.get("avatarUrl").trim();
-  if(!avatarUrl) {
-    let gender = f.get("gender").toLowerCase();
-    let pool = neutralAvatars;
-    if(gender.includes("woman")||gender.includes("female")) pool = femaleAvatars;
-    else if(gender.includes("man")||gender.includes("male")) pool = maleAvatars;
-    avatarUrl = pool[Math.floor(Math.random() * pool.length)];
-  }
-
-  const u={id:"user_"+Date.now(),email:f.get("email"),password:f.get("password"),name:f.get("first")+" "+f.get("last"),age:calcAge(f.get("dob")),gender:f.get("gender"),nationality:f.get("nationality"),airline:f.get("airline"),role:f.get("role"),location:f.get("location")||"Dubai",tags:purposes,verified:code===VERIFY_CODE,online:true,avatar:avatarUrl,about:"New SkyConnection community member."};
-  users.push(u);save();current=u;openDashboard();setMsg("signupMsg","Account created successfully!","ok");
-};
-
-function calcAge(d){if(!d)return 25;let x=new Date(d),n=new Date();let a=n.getFullYear()-x.getFullYear();if(n.getMonth()<x.getMonth()||(n.getMonth()===x.getMonth()&&n.getDate()<x.getDate()))a--;return a}
-function setMsg(id,t,c){$(id).textContent=t;$(id).className="msg "+c}
-
-$("loginForm").onsubmit=e=>{e.preventDefault();const em=$("loginEmail").value.trim().toLowerCase(),pw=$("loginPassword").value;const u=users.find(x=>x.email.toLowerCase()===em&&x.password===pw);if(!u)return setMsg("loginMsg","Incorrect email or password.","err");current=u;openDashboard()};
-
-function openDashboard(){
-  $("landing").style.display="none";
-  $("dashboard").style.display="block";
-  updateNavAvatar();
-  renderAll();
-  window.scrollTo(0,0);
-}
-
-function updateNavAvatar(){
-  if(current.avatar){
-    $("navAvatar").innerHTML=`<img src="${current.avatar}" alt="Avatar">`;
+function toggleAuthMode() {
+  const isSignupVisible = !document.getElementById('signupBox').classList.contains('hidden');
+  if (isSignupVisible) {
+    setAuthTab('login');
   } else {
-    $("navAvatar").textContent=initials(current.name);
+    setAuthTab('signup');
   }
 }
 
-function renderAll(){renderDiscover();renderMatches();renderChats();renderEvents();renderActivities();renderProfile()}
+function setAuthTab(tab) {
+  if (tab === 'signup') {
+    document.getElementById('signupBox').classList.remove('hidden');
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('signupTab').classList.add('active');
+    document.getElementById('loginTab').classList.remove('active');
+    document.getElementById('authTitle').innerText = 'Create Your Account';
+    document.getElementById('authSub').innerText = 'Join the exclusive global cabin crew network';
+    document.getElementById('switchBtn').innerText = 'Log In';
+  } else {
+    document.getElementById('signupBox').classList.add('hidden');
+    document.getElementById('loginBox').classList.remove('hidden');
+    document.getElementById('signupTab').classList.remove('active');
+    document.getElementById('loginTab').classList.add('active');
+    document.getElementById('authTitle').innerText = 'Welcome Back';
+    document.getElementById('authSub').innerText = 'Log in securely to your community account';
+    document.getElementById('switchBtn').innerText = 'Sign Up';
+  }
+}
 
-document.querySelectorAll(".navLinks button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".navLinks button").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-  $(b.dataset.view).classList.add("active");
-  if(b.dataset.view==="messages") renderChats();
+// Verification Code Autofill simulation
+document.getElementById('verifyCode').addEventListener('input', (e) => {
+  const status = document.getElementById('verifyStatus');
+  if (e.target.value.trim().length > 3) {
+    status.innerText = 'Verified ✓';
+    status.style.color = 'var(--green)';
+    status.style.background = '#f0fdf4';
+    status.style.borderColor = '#bbf7d0';
+  } else {
+    status.innerText = 'Pending';
+    status.style.color = 'var(--text-muted)';
+    status.style.background = '#fcfbfa';
+    status.style.borderColor = 'var(--border)';
+  }
 });
 
-function renderDiscover(){
-  const others=users.filter(u=>u.id!==current.id);
-  $("profileGrid").innerHTML=others.map(u=>`
-    <article class="profileCard">
-      <div class="photo">
-        ${u.avatar?`<img src="${u.avatar}" alt="${u.name}">`:''}
-        <div class="initials">${initials(u.name)}</div>
-        ${u.online?'<span class="online">● Online</span>':''}
+// Signup Form Handler
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const email = form.email.value;
+  const password = form.password.value;
+  const first = form.first.value;
+  const last = form.last.value;
+  const location = form.location.value || 'Dubai';
+  const role = form.role.value;
+  const airline = form.airline.value;
+  const avatarUrl = form.avatarUrl.value || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';
+
+  if(users.some(u => u.email === email)) {
+    document.getElementById('signupMsg').innerText = 'Account with this email already exists.';
+    document.getElementById('signupMsg').className = 'msg err';
+    return;
+  }
+
+  const newUser = {
+    id: String(Date.now()),
+    email,
+    password,
+    name: `${first} ${last}`,
+    location,
+    role,
+    airline,
+    avatarUrl,
+    bio: `${role} at ${airline}. Passionate about travel and meeting new crew members across the globe.`
+  };
+
+  users.push(newUser);
+  loginUser(newUser);
+});
+
+// Login Form Handler
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  const found = users.find(u => u.email === email && u.password === password);
+  if(found) {
+    loginUser(found);
+  } else {
+    const msg = document.getElementById('loginMsg');
+    msg.innerText = 'Invalid email or password.';
+    msg.className = 'msg err';
+  }
+});
+
+function loginUser(user) {
+  currentUser = user;
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  initDashboard();
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('landing').style.display = 'grid';
+  setAuthTab('login');
+}
+
+// Dashboard Initialization & Navigation
+function initDashboard() {
+  document.getElementById('navAvatar').innerText = currentUser.name.charAt(0);
+  renderDiscoverCard();
+  renderMatches();
+  renderEvents();
+  renderProfile();
+}
+
+const navButtons = document.querySelectorAll('.navLinks button, #navAvatar');
+navButtons.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const viewName = btn.getAttribute('data-view') || 'profile';
+    switchView(viewName);
+  });
+});
+
+function switchView(viewName) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(viewName).classList.add('active');
+
+  document.querySelectorAll('.navLinks button').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.querySelector(`.navLinks button[data-view="${viewName}"]`);
+  if(activeBtn) activeBtn.classList.add('active');
+
+  if(viewName === 'discover') renderDiscoverCard();
+  if(viewName === 'matches') renderMatches();
+  if(viewName === 'messages') renderChatList();
+  if(viewName === 'events') renderEvents();
+  if(viewName === 'profile') renderProfile();
+}
+
+// Discover Stack Logic (with Pass and Unmatch support)
+function getFilteredUsers() {
+  const userPasses = passedUserIds[currentUser.id] || {};
+  const userMatches = matches[currentUser.id] || [];
+  return users.filter(u => u.id !== currentUser.id && !userPasses[u.id] && !userMatches.includes(u.id));
+}
+
+function renderDiscoverCard() {
+  const area = document.getElementById('discoverArea');
+  const available = getFilteredUsers();
+
+  if(available.length === 0) {
+    area.innerHTML = `
+      <div class="emptyDeck">
+        <h3>You’re all caught up!</h3>
+        <p>No new crew members matching your current criteria. Check back soon as more colleagues join the community.</p>
+      </div>`;
+    return;
+  }
+
+  const target = available[0];
+  area.innerHTML = `
+    <div class="tinderCard">
+      <div class="tinderPhoto">
+        <div class="online">● Active Base</div>
+        <img src="${target.avatarUrl}" alt="${target.name}">
       </div>
-      <div class="pbody">
-        <h3>${u.name}, ${u.age}</h3>
-        <div class="meta">✓ Verified · ${u.role}<br>${u.airline} · ${u.location}</div>
-        <div class="chips">${u.tags.map(t=>`<span class="chip">${t}</span>`).join("")}</div>
-        <div class="actions">
-          <button class="pass" onclick="passUser('${u.id}')">Pass</button>
-          <button class="like" onclick="likeUser('${u.id}')">♡ Like</button>
+      <div class="tinderBody">
+        <h3>${target.name}</h3>
+        <div class="tinderMeta">${target.role} • ${target.airline} • Based in ${target.location}</div>
+        <div class="chips">
+          <span class="chip">Dating</span>
+          <span class="chip">Layover Meetups</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); line-height:1.6; margin-bottom:20px; font-weight:300;">${target.bio}</p>
+        <div class="tinderActions">
+          <button class="passBtn" onclick="passUser('${target.id}')" type="button">Pass</button>
+          <button class="likeBtn" onclick="likeUser('${target.id}')" type="button">Connect ♡</button>
         </div>
       </div>
-    </article>
-  `).join("");
+    </div>`;
 }
 
-function likeUser(id){if(!liked.includes(id))liked.push(id);save();const u=users.find(x=>x.id===id);toast(`Liked ${u.name.split(" ")[0]} ♡`);renderMatches()}
-function passUser(id){toast("Profile passed");const card=[...document.querySelectorAll(".profileCard")].find(x=>x.innerText.includes(users.find(u=>u.id===id).name));if(card)card.remove()}
-
-function renderMatches(){
-  const list=users.filter(u=>liked.includes(u.id));
-  $("matchesList").innerHTML=list.length?list.map(u=>`
-    <div class="match">
-      <div class="mavatar">${u.avatar?`<img src="${u.avatar}" alt="">`:initials(u.name)}</div>
-      <div><b>${u.name}</b><small>${u.airline} · ${u.location}</small></div>
-      <button onclick="startChat('${u.id}')">Message</button>
-    </div>
-  `).join(""):'<div class="empty">Like members in Discover to establish matches.</div>';
-}
-
-function startChat(id){activeChat=id;document.querySelector('[data-view="messages"]').click();renderChats()}
-
-function renderChats(){
-  const list=users.filter(u=>liked.includes(u.id));
-  $("chatList").innerHTML=list.length?list.map(u=>`
-    <div class="chatItem ${activeChat===u.id?'active':''}" onclick="activeChat='${u.id}';renderChats()">
-      <div class="mavatar">${u.avatar?`<img src="${u.avatar}" alt="">`:initials(u.name)}</div>
-      <div>
-        <b style="font-size:12px;color:var(--text-main)">${u.name}</b>
-        <small style="display:block;color:var(--text-muted);font-size:10px">${(chats[u.id]?.slice(-1)[0]?.text)||"Start a conversation"}</small>
-      </div>
-    </div>
-  `).join(""):'<div class="empty" style="padding:30px">No active conversations.</div>';
-
-  if(!activeChat&&list.length) activeChat=list[0].id;
-  const u=users.find(x=>x.id===activeChat);
-  $("chatHead").textContent=u?u.name:"Select a conversation";
-  const arr=chats[activeChat]||[];
-  $("messages").innerHTML=arr.map(m=>`<div class="bubble ${m.me?'me':''}">${escapeHtml(m.text)}</div>`).join("");
-  $("messages").scrollTop=$("messages").scrollHeight;
-}
-
-$("sendBtn").onclick=sendMessage;$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage()});
-function sendMessage(){
-  const text=$("chatInput").value.trim();if(!text||!activeChat)return;
-  if(!chats[activeChat]) chats[activeChat]=[];
-  chats[activeChat].push({me:true,text});save();$("chatInput").value="";renderChats();
-  setTimeout(()=>{
-    chats[activeChat].push({me:false,text:`Hey ${current.name.split(" ")[0]}! Great connecting with you. ✈️`});
-    save();renderChats();
-  },700);
-}
-
-function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function renderEvents(){$("eventsGrid").innerHTML=events.map(e=>`<article class="event"><div class="date">${e[0]}</div><h3>${e[1]}</h3><div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:6px">${e[2]}</div><p>${e[3]}</p><button onclick="toast('You are on the guest list for ${e[1]}')">Join Gathering</button></article>`).join("")}
-function renderActivities(){$("activitiesGrid").innerHTML=activities.map(a=>`<article class="event"><div style="font-size:28px;margin-bottom:8px">${a[0]}</div><h3>${a[1]}</h3><p>${a[2]}</p><button onclick="toast('Activity joined successfully!')">Join Activity</button></article>`).join("")}
-
-function renderProfile(){
-  if(current.avatar){
-    $("profileHero").innerHTML=`<img src="${current.avatar}" alt="Profile Hero">`;
-  } else {
-    $("profileHero").textContent=initials(current.name);
+function passUser(targetId) {
+  if(!passedUserIds[currentUser.id]) {
+    passedUserIds[currentUser.id] = {};
   }
-  $("profileName").textContent=current.name;
-  $("profileDetails").innerHTML=`
-    <b style="color:var(--text-main);font-size:14px">${current.age} · ${current.role}</b><br>
-    ✓ Verified Cabin Crew Member<br>
-    ${current.airline} · Base: ${current.location}<br>
-    Nationality: ${current.nationality || "Not specified"}<br><br>
-    ${current.about}<br><br>
-    <b>Interests & Intentions</b><br>
-    ${current.tags.map(t=>`<span class="chip" style="display:inline-block;margin:6px 4px 0 0">${t}</span>`).join("")}
-  `;
+  passedUserIds[currentUser.id][targetId] = true;
+  showToast('Profile passed and hidden from your deck.');
+  renderDiscoverCard();
 }
 
-function openEditModal(){
-  $("editName").value = current.name;
-  $("editLocation").value = current.location;
-  $("editRole").value = current.role;
-  $("editAvatar").value = current.avatar || "";
-  $("editAbout").value = current.about;
-  $("editModal").classList.add("show");
+function likeUser(targetId) {
+  if(!matches[currentUser.id]) matches[currentUser.id] = [];
+  if(!matches[currentUser.id].includes(targetId)) {
+    matches[currentUser.id].push(targetId);
+  }
+  showToast('Connection established successfully! Check Matches.');
+  renderDiscoverCard();
 }
 
-function closeEditModal(){
-  $("editModal").classList.remove("show");
+// Matches & Unmatch Option
+function renderMatches() {
+  const listContainer = document.getElementById('matchesList');
+  const userMatches = matches[currentUser.id] || [];
+
+  if(userMatches.length === 0) {
+    listContainer.innerHTML = `<p style="font-size:13px;color:var(--text-muted);font-weight:300;">No connections established yet. Start exploring to connect with crew members!</p>`;
+    return;
+  }
+
+  let html = '';
+  userMatches.forEach(id => {
+    const u = users.find(x => x.id === id);
+    if(!u) return;
+    html += `
+      <div class="match">
+        <div class="match-info">
+          <div class="mavatar"><img src="${u.avatarUrl}" alt="${u.name}"></div>
+          <div>
+            <b>${u.name}</b>
+            <small>${u.airline} • ${u.location}</small>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="unmatchBtn" onclick="startChat('${u.id}')" type="button">Chat</button>
+          <button class="unmatchBtn" onclick="unmatchUser('${u.id}')" type="button">Unmatch</button>
+        </div>
+      </div>`;
+  });
+  listContainer.innerHTML = html;
 }
 
-$("editForm").onsubmit = e => {
+function unmatchUser(targetId) {
+  if(!matches[currentUser.id]) return;
+  matches[currentUser.id] = matches[currentUser.id].filter(id => id !== targetId);
+  showToast('User unmatched successfully.');
+  renderMatches();
+}
+
+function startChat(targetId) {
+  switchView('messages');
+  selectChatUser(targetId);
+}
+
+// Messages System
+let activeChatTargetId = null;
+
+function renderChatList() {
+  const chatList = document.getElementById('chatList');
+  const userMatches = matches[currentUser.id] || [];
+
+  if(userMatches.length === 0) {
+    chatList.innerHTML = `<p style="font-size:12px;color:var(--text-muted);padding:10px;font-weight:300;">No active conversations.</p>`;
+    return;
+  }
+
+  let html = '';
+  userMatches.forEach(id => {
+    const u = users.find(x => x.id === id);
+    if(!u) return;
+    html += `
+      <div onclick="selectChatUser('${u.id}')" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;cursor:pointer;background:${activeChatTargetId === u.id ? 'var(--soft-pink)' : 'transparent'};margin-bottom:6px;">
+        <div class="mavatar" style="width:40px;height:40px;"><img src="${u.avatarUrl}" alt="${u.name}"></div>
+        <div>
+          <b style="font-size:13px;display:block;">${u.name}</b>
+          <small style="color:var(--text-muted);font-size:11px;">${u.airline}</small>
+        </div>
+      </div>`;
+  });
+  chatList.innerHTML = html;
+}
+
+function selectChatUser(targetId) {
+  activeChatTargetId = targetId;
+  renderChatList();
+  const targetUser = users.find(u => u.id === targetId);
+  document.getElementById('chatHeadTitle').innerText = targetUser ? targetUser.name : 'Conversation';
+  document.getElementById('chatHeadAction').innerHTML = `<button class="unmatchBtn" onclick="unmatchUser('${targetId}'); switchView('matches');">Unmatch</button>`;
+  renderMessages();
+}
+
+function renderMessages() {
+  const container = document.getElementById('messagesContainer');
+  if(!activeChatTargetId) {
+    container.innerHTML = `<p style="font-size:13px;color:var(--text-muted);text-align:center;margin:auto;">Select a conversation from the left to start messaging.</p>`;
+    return;
+  }
+
+  const chatKey = [currentUser.id, activeChatTargetId].sort().join('_');
+  const history = chats[chatKey] || [];
+
+  if(history.length === 0) {
+    container.innerHTML = `<p style="font-size:12px;color:var(--text-muted);text-align:center;margin:auto;">No messages yet. Send a greeting to your colleague!</p>`;
+    return;
+  }
+
+  let html = '';
+  history.forEach(m => {
+    const isMe = m.sender === currentUser.id;
+    html += `
+      <div style="display:flex;justify-content:${isMe ? 'flex-end' : 'flex-start'};">
+        <div style="background:${isMe ? 'var(--primary)' : '#fff'};color:${isMe ? '#fff' : 'var(--text-main)'};padding:10px 16px;border-radius:14px;font-size:13px;max-width:70%;border:1px solid var(--border);box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+          ${m.text}
+        </div>
+      </div>`;
+  });
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+document.getElementById('sendBtn').addEventListener('click', sendMessage);
+document.getElementById('chatInput').addEventListener('keypress', (e) => {
+  if(e.key === 'Enter') sendMessage();
+});
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text || !activeChatTargetId) return;
+
+  const chatKey = [currentUser.id, activeChatTargetId].sort().join('_');
+  if(!chats[chatKey]) chats[chatKey] = [];
+  chats[chatKey].push({ sender: currentUser.id, text });
+  input.value = '';
+  renderMessages();
+}
+
+// Events & Gatherings
+function renderEvents() {
+  const grid = document.getElementById('eventsGrid');
+  let html = '';
+  eventsData.forEach(ev => {
+    html += `
+      <div class="event">
+        <div>
+          <div class="date">${ev.date}</div>
+          <h3>${ev.title}</h3>
+          <p>${ev.desc}</p>
+        </div>
+        <button class="mainBtn" style="margin-top:0;font-size:12px;min-height:44px;" onclick="openEventModal(${ev.id})" type="button">View Details & Join</button>
+      </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+function openEventModal(eventId) {
+  const ev = eventsData.find(x => x.id === eventId);
+  if(!ev) return;
+  document.getElementById('modalEventTitle').innerText = ev.title;
+  document.getElementById('modalEventBody').innerHTML = `
+    <p><b>Date:</b> ${ev.date}</p>
+    <p><b>Location:</b> ${ev.location}</p>
+    <p style="margin-top:10px;">${ev.desc}</p>
+    <p style="margin-top:14px;color:var(--primary);font-weight:600;">Secure your spot now — restricted to verified community members.</p>`;
+  document.getElementById('modalJoinBtn').onclick = () => {
+    showToast('Successfully registered for the gathering!');
+    closeEventModal();
+  };
+  document.getElementById('eventModal').classList.add('show');
+}
+
+function closeEventModal() {
+  document.getElementById('eventModal').classList.remove('show');
+}
+
+// Profile & Modals
+function renderProfile() {
+  document.getElementById('profileHero').innerHTML = `<img src="${currentUser.avatarUrl}" alt="${currentUser.name}">`;
+  document.getElementById('profileName').innerText = currentUser.name;
+  document.getElementById('profileDetails').innerHTML = `
+    <b>Airline:</b> ${currentUser.airline}<br>
+    <b>Role:</b> ${currentUser.role}<br>
+    <b>Base:</b> ${currentUser.location}<br>
+    <b>Email:</b> ${currentUser.email}<br>
+    <p style="margin-top:10px;">${currentUser.bio}</p>`;
+}
+
+function openEditModal() {
+  document.getElementById('editName').value = currentUser.name;
+  document.getElementById('editLocation').value = currentUser.location;
+  document.getElementById('editRole').value = currentUser.role;
+  document.getElementById('editAvatar').value = currentUser.avatarUrl;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('show');
+}
+
+document.getElementById('editForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  current.name = $("editName").value;
-  current.location = $("editLocation").value;
-  current.role = $("editRole").value;
-  let newAvatar = $("editAvatar").value.trim();
-  if(newAvatar) current.avatar = newAvatar;
-  current.about = $("editAbout").value;
+  currentUser.name = document.getElementById('editName').value;
+  currentUser.location = document.getElementById('editLocation').value;
+  currentUser.role = document.getElementById('editRole').value;
+  currentUser.avatarUrl = document.getElementById('editAvatar').value || currentUser.avatarUrl;
 
-  const idx = users.findIndex(u=>u.id===current.id);
-  if(idx !== -1) users[idx] = current;
-  save();
-  updateNavAvatar();
-  renderProfile();
   closeEditModal();
-  toast("Profile updated successfully!");
-};
+  renderProfile();
+  initDashboard();
+  showToast('Profile updated successfully.');
+});
 
-function logout(){
-  current=null;activeChat=null;
-  $("dashboard").style.display="none";
-  $("landing").style.display="grid";
-  showLogin();
-  toast("Logged out securely");
+function openPrivacyModal() {
+  document.getElementById('privacyModal').classList.add('show');
+}
+
+function closePrivacyModal() {
+  document.getElementById('privacyModal').classList.remove('show');
+}
+
+// Toast Notification
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.innerText = message;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
 }
 </script>
 </body>

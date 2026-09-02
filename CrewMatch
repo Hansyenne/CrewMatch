@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SkyConnection — Cabin Crew Community</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{--red:#b5121b;--dark:#721017;--cream:#fff8ed;--paper:#fffdf9;--ink:#321d1a;--muted:#806b64;--line:#ead8ce;--soft:#fff0e9;--green:#4f8747}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}.app{min-height:100vh}.landing{min-height:100vh;display:grid;grid-template-columns:47% 53%;background:linear-gradient(135deg,#fffaf2,#f9e7d9)}
+.hero{padding:32px 6vw;position:relative;overflow:hidden}.brand{color:var(--red);font-weight:700;font-size:21px;letter-spacing:.5px}.brand small{display:block;color:#765f58;font-size:8px;letter-spacing:4px;margin-left:42px;margin-top:-3px}
+.hero h1{font:600 clamp(48px,5vw,76px)/.96 "Playfair Display",serif;color:#5b1b1d;margin:95px 0 22px}.hero h1 i{display:block;color:var(--red);font-size:.62em;margin-top:18px}.hero>p{max-width:480px;font-size:16px;line-height:1.7;color:#543f3a}.features{margin-top:42px;display:grid;gap:14px}.feature{display:flex;gap:14px;align-items:center}.fi{width:48px;height:48px;border:1px solid #e4a79e;border-radius:15px;background:#fff9f3;display:grid;place-items:center;color:var(--red);font-size:21px}.feature b{font-size:13px;color:#681a1d}.feature span{display:block;color:var(--muted);font-size:11px;margin-top:2px}.wave{position:absolute;background:var(--red);height:220px;width:115%;left:-7%;bottom:-135px;border-radius:50% 50% 0 0/45% 45% 0 0}.heroquote{position:absolute;bottom:28px;left:6vw;color:#fff;font:italic 18px "Playfair Display",serif;z-index:2}
+.authWrap{padding:32px 5vw;display:flex;align-items:center;justify-content:center}.auth{width:min(700px,100%);background:var(--paper);border:1px solid #efc9ba;border-radius:28px;padding:30px;box-shadow:0 25px 70px #8a29151a}.authHead{display:flex;justify-content:space-between;align-items:flex-start}.title{font:600 34px "Playfair Display",serif;color:var(--red);margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.switch{border:1px solid #d76c66;background:#fff;color:var(--red);padding:10px 15px;border-radius:10px;font-weight:700}
+.notice{background:var(--soft);border:1px solid #f0c8b9;padding:12px 14px;border-radius:11px;font-size:11px;margin:12px 0}.notice b{display:block;color:var(--red);margin-bottom:3px}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin:20px 0}.tab{border:0;background:none;padding:11px 16px;color:var(--muted);font-weight:700}.tab.active{color:var(--red);border-bottom:2px solid var(--red)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.two{grid-template-columns:1fr 1fr}.full{grid-column:1/-1}h3{font-size:13px;color:var(--red);margin:18px 0 9px}label.field{display:block;font-size:10px;color:var(--muted)}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;margin-top:5px;outline:none;font-size:12px;color:#513e39}input:focus,select:focus,textarea:focus{border-color:#c94a45}
+.uploads{display:grid;grid-template-columns:1fr 1fr;gap:10px}.upload{border:1px dashed #dfa99c;border-radius:11px;padding:12px;background:#fffaf6}.upload b{font-size:12px}.upload small{display:block;color:var(--muted);margin:3px 0 7px}.upload input{padding:6px;font-size:10px}
+.code{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}.verified{padding:0 12px;border-radius:9px;border:1px solid #d4e7cf;background:#f1f9ef;color:var(--green);font-size:10px;display:grid;place-items:center}
+.checks{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0}.checks label{font-size:11px}.checks input{width:auto;margin:0}.mainBtn{width:100%;border:0;background:var(--red);color:#fff;padding:14px;border-radius:11px;font-weight:700;margin-top:12px}.mainBtn:hover{background:var(--dark)}.msg{text-align:center;font-size:11px;min-height:16px;margin-top:9px}.err{color:var(--red)}.ok{color:var(--green)}
+.loginBox{max-width:430px;margin:25px auto}.demo{background:#fff4ec;border:1px solid #efd2c4;padding:10px;border-radius:10px;font-size:10px;margin-top:12px;color:#705b55}.demo b{color:var(--red)}
+/* Dashboard */
+.dashboard{display:none;min-height:100vh;background:#fffaf3}.dashNav{height:72px;background:#fffdf9;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 4vw;gap:28px;position:sticky;top:0;z-index:20}.dashBrand{color:var(--red);font-weight:800;font-size:19px}.navLinks{display:flex;gap:5px;flex:1}.navLinks button{border:0;background:none;color:#6f5b55;padding:12px 13px;border-radius:10px;font-size:12px;font-weight:700}.navLinks button.active,.navLinks button:hover{background:#fff0e9;color:var(--red)}.avatarMini{width:38px;height:38px;border-radius:50%;background:#f2cfc5;display:grid;place-items:center;font-weight:800;color:var(--red);cursor:pointer}.content{max-width:1220px;margin:auto;padding:34px 25px}.view{display:none}.view.active{display:block}.welcome{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:25px}.welcome h2{font:600 35px "Playfair Display",serif;margin:0;color:#5b1b1d}.welcome p{color:var(--muted);font-size:12px;margin:6px 0}.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}.filter{padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#695650;font-size:11px}.profiles{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.profileCard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 9px 30px #6f21120d}.photo{height:260px;display:grid;place-items:end start;padding:15px;background:linear-gradient(145deg,#f4d7cc,#c98278);position:relative}.photo .initials{font:700 58px "Playfair Display",serif;color:#fff7ef;opacity:.9}.online{position:absolute;top:13px;right:13px;background:#fff;padding:5px 8px;border-radius:20px;font-size:9px;color:var(--green);font-weight:700}.pbody{padding:14px}.pbody h3{margin:0;color:#3e2723;font-size:15px}.meta{font-size:10px;color:var(--muted);margin-top:5px}.chips{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}.chip{font-size:9px;padding:5px 7px;background:#fff0e9;color:#8a2a2e;border-radius:20px}.actions{display:flex;gap:8px}.actions button{flex:1;border:0;border-radius:9px;padding:9px;font-size:11px;font-weight:700}.pass{background:#f7eee9;color:#8b6c64}.like{background:var(--red);color:#fff}.empty{background:#fff;border:1px dashed #e1c7bb;padding:45px;text-align:center;border-radius:15px;color:var(--muted)}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.panel h3{margin:0 0 14px;font-size:16px}.matchList{display:grid;gap:9px}.match{display:flex;align-items:center;gap:11px;padding:10px;background:#fffaf5;border-radius:10px}.mavatar{width:42px;height:42px;border-radius:50%;background:#efd0c5;display:grid;place-items:center;color:var(--red);font-weight:800}.match b{font-size:12px}.match small{display:block;color:var(--muted);font-size:10px}.match button{margin-left:auto;border:0;background:var(--red);color:#fff;border-radius:8px;padding:7px 10px;font-size:10px}
+.events{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.event{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px}.date{color:var(--red);font-weight:800;font-size:10px;letter-spacing:1px}.event h3{color:#3f2925;margin:8px 0}.event p{font-size:11px;color:var(--muted);line-height:1.5}.event button{border:0;background:#fff0e9;color:var(--red);padding:9px 12px;border-radius:9px;font-weight:700;font-size:10px}
+.chat{display:grid;grid-template-columns:300px 1fr;height:600px;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}.chatList{border-right:1px solid var(--line);padding:15px}.chatItem{padding:11px;border-radius:10px;display:flex;gap:9px;align-items:center;cursor:pointer}.chatItem.active,.chatItem:hover{background:#fff1eb}.chatWindow{display:flex;flex-direction:column}.chatHead{padding:16px;border-bottom:1px solid var(--line);font-weight:700}.messages{flex:1;padding:18px;overflow:auto;display:flex;flex-direction:column;gap:9px}.bubble{max-width:65%;padding:10px 12px;border-radius:13px;background:#f5ece7;font-size:11px}.bubble.me{align-self:flex-end;background:var(--red);color:#fff}.chatInput{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}.chatInput input{margin:0}.chatInput button{border:0;background:var(--red);color:#fff;border-radius:9px;padding:0 17px}
+.profilePanel{display:grid;grid-template-columns:260px 1fr;gap:20px}.profileHero{background:linear-gradient(145deg,#f1cfc4,#b85e59);height:300px;border-radius:18px;display:grid;place-items:center;color:#fff;font:700 70px "Playfair Display"}.settings{display:grid;gap:10px}.danger{background:#fff1eb;border:1px solid #f1c9bb;color:var(--red);padding:12px;border-radius:10px;font-size:11px}
+.toast{position:fixed;right:25px;bottom:25px;background:#3c2824;color:#fff;padding:12px 16px;border-radius:10px;font-size:11px;opacity:0;transform:translateY(10px);transition:.25s;z-index:99}.toast.show{opacity:1;transform:none}
+@media(max-width:1000px){.landing{grid-template-columns:1fr}.hero{min-height:550px}.authWrap{padding:25px}.profiles{grid-template-columns:repeat(2,1fr)}.events{grid-template-columns:1fr 1fr}.navLinks button{padding:9px 6px}.profilePanel{grid-template-columns:1fr}}
+@media(max-width:650px){.grid,.two,.uploads{grid-template-columns:1fr}.profiles,.events,.cards2{grid-template-columns:1fr}.dashNav{gap:8px;padding:0 12px}.navLinks{overflow:auto}.navLinks button{font-size:10px;white-space:nowrap}.content{padding:22px 14px}.chat{grid-template-columns:1fr}.chatList{display:none}.hero h1{margin-top:60px}}
+</style>
+</head>
+<body>
+
+<!-- AUTH EXPERIENCE -->
+<div id="landing" class="landing">
+<section class="hero">
+<div class="brand">♡✈ SKYCONNECTION<small>CABIN CREW COMMUNITY</small></div>
+<h1>More Than<br>Just Dating.<i>It's a Lifestyle.</i></h1>
+<p>A private community created for cabin crew — for dating, genuine friendships, gatherings, activities and the people who understand the lifestyle.</p>
+<div class="features">
+<div class="feature"><div class="fi">♡</div><div><b>Find Connections</b><span>Meet verified crew who are open to meaningful connections.</span></div></div>
+<div class="feature"><div class="fi">♧</div><div><b>Make Friends</b><span>Build friendships with crew from around the world.</span></div></div>
+<div class="feature"><div class="fi">◫</div><div><b>Gatherings & Events</b><span>Discover dinners, meet-ups and crew activities.</span></div></div>
+<div class="feature"><div class="fi">✈</div><div><b>Share Experiences</b><span>Connect around destinations, hobbies and aviation life.</span></div></div>
+</div><div class="wave"></div><div class="heroquote">“We don't just connect flights, we connect hearts.”</div>
+</section>
+
+<section class="authWrap">
+<div class="auth">
+<div class="authHead"><div><h2 class="title" id="authTitle">Create Your Account</h2><div class="sub" id="authSub">Join the exclusive cabin crew community</div></div><button class="switch" id="switchBtn">Log In</button></div>
+<div class="tabs"><button class="tab active" id="signupTab">Sign Up</button><button class="tab" id="loginTab">Log In</button></div>
+
+<div id="signupBox">
+<div class="notice"><b>Verification Required</b>Upload a Facecard or Platinum Card with your staff number. Verification can take up to 48 hours.</div>
+<div class="notice"><b>Verification Code</b>Authorized code can instantly bypass document verification. Never expose a real production code in client-side code.</div>
+<form id="signupForm">
+<h3>Account</h3><div class="grid two">
+<label class="field">Email<input required type="email" name="email" placeholder="you@email.com"></label>
+<label class="field">Password<input required type="password" name="password" minlength="6" placeholder="Minimum 6 characters"></label>
+</div>
+<h3>Personal Information</h3><div class="grid">
+<label class="field">First Name<input required name="first" placeholder="First Name"></label>
+<label class="field">Last Name<input required name="last" placeholder="Last Name"></label>
+<label class="field">Date of Birth<input required type="date" name="dob"></label>
+</div>
+<div class="grid two" style="margin-top:9px">
+<label class="field">Gender<select required name="gender"><option value="">Select</option><option>Woman</option><option>Man</option><option>Non-binary</option><option>Prefer not to say</option></select></label>
+<label class="field">Nationality<select required name="nationality"><option value="">Select</option><option>UAE</option><option>UK</option><option>India</option><option>Philippines</option><option>Other</option></select></label>
+</div>
+<h3>Cabin Crew Information</h3><div class="grid">
+<label class="field">Airline<select required name="airline"><option value="">Select Airline</option><option>Emirates</option><option>Etihad Airways</option><option>Qatar Airways</option><option>flydubai</option><option>Other</option></select></label>
+<label class="field">Staff Number<input required name="staff" placeholder="Staff Number"></label>
+<label class="field">Role<select required name="role"><option value="">Select</option><option>Cabin Crew</option><option>Senior Cabin Crew</option><option>Purser</option><option>Former Cabin Crew</option></select></label>
+</div>
+<h3>Verification <small>(one document)</small></h3>
+<div class="uploads"><div class="upload"><b>▣ Facecard</b><small>Airline Facecard</small><input type="file" name="facecard" accept=".jpg,.jpeg,.png,.pdf"></div><div class="upload"><b>▤ Platinum Card</b><small>Airline Platinum Card</small><input type="file" name="platinum" accept=".jpg,.jpeg,.png,.pdf"></div></div>
+<div class="code"><input id="verifyCode" placeholder="Enter authorized verification code"><div id="verifyStatus" class="verified">Verification pending</div></div>
+<h3>Preferences</h3><div class="grid">
+<label class="field">Looking For<select name="looking"><option>Women</option><option>Men</option><option>Everyone</option></select></label>
+<label class="field">Age Range<select name="age"><option>18–25</option><option>26–35</option><option>36–45</option><option>46+</option></select></label>
+<label class="field">Location<input name="location" placeholder="Dubai, London, Doha..."></label>
+</div>
+<div class="checks"><label><input type="checkbox" name="purpose" value="Dating"> Dating</label><label><input type="checkbox" name="purpose" value="Friendship"> Friendship</label><label><input type="checkbox" name="purpose" value="Gatherings"> Gatherings</label><label><input type="checkbox" name="purpose" value="Activities"> Activities</label></div>
+<label style="font-size:10px"><input required type="checkbox" style="width:auto"> I agree to the Terms of Service and Privacy Policy.</label>
+<button class="mainBtn">Create Account ♡</button><div id="signupMsg" class="msg"></div>
+</form>
+</div>
+
+<div id="loginBox" class="loginBox hidden">
+<div class="notice"><b>Welcome back</b>Log in to discover verified cabin crew, matches, messages, gatherings and activities.</div>
+<form id="loginForm">
+<label class="field">Email<input required id="loginEmail" type="email" placeholder="you@email.com"></label>
+<label class="field" style="display:block;margin-top:12px">Password<input required id="loginPassword" type="password" placeholder="Your password"></label>
+<button class="mainBtn">Log In</button><div id="loginMsg" class="msg"></div>
+</form>
+<div class="demo"><b>Demo accounts</b><br>alex@skyconnection.demo / demo123<br>sofia@skyconnection.demo / demo123<br><br>Admin prototype: admin@skyconnection.demo / admin123</div>
+</div>
+</div>
+</section>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard">
+<nav class="dashNav"><div class="dashBrand">♡✈ SKYCONNECTION</div><div class="navLinks">
+<button data-view="discover" class="active">Discover</button><button data-view="matches">Matches</button><button data-view="messages">Messages</button><button data-view="events">Gatherings</button><button data-view="activities">Activities</button><button data-view="profile">My Profile</button>
+</div><div class="avatarMini" id="navAvatar">A</div></nav>
+<main class="content">
+<section id="discover" class="view active">
+<div class="welcome"><div><h2>Discover your crew</h2><p>Verified members who match your preferences.</p></div></div>
+<div class="filters"><button class="filter">♡ Dating</button><button class="filter">♧ Friendship</button><button class="filter">✈ Nearby</button><button class="filter">✓ Verified only</button></div>
+<div id="profileGrid" class="profiles"></div>
+</section>
+
+<section id="matches" class="view">
+<div class="welcome"><div><h2>Your Matches</h2><p>People you've connected with.</p></div></div>
+<div class="cards2"><div class="panel"><h3>Recent Matches</h3><div id="matchesList" class="matchList"></div></div><div class="panel"><h3>Connection Tip</h3><p style="font-size:12px;line-height:1.7;color:var(--muted)">Start with something personal: ask about their favourite layover, destination or crew memory instead of sending a generic “hey”.</p></div></div>
+</section>
+
+<section id="messages" class="view">
+<div class="welcome"><div><h2>Messages</h2><p>Continue your conversations.</p></div></div>
+<div class="chat"><div class="chatList" id="chatList"></div><div class="chatWindow"><div class="chatHead" id="chatHead">Select a conversation</div><div class="messages" id="messages"></div><div class="chatInput"><input id="chatInput" placeholder="Write a message..."><button id="sendBtn">Send</button></div></div></div>
+</section>
+
+<section id="events" class="view">
+<div class="welcome"><div><h2>Gatherings</h2><p>Meet crew beyond the screen.</p></div></div><div id="eventsGrid" class="events"></div>
+</section>
+
+<section id="activities" class="view">
+<div class="welcome"><div><h2>Activities</h2><p>Find people who enjoy the same things.</p></div></div><div id="activitiesGrid" class="events"></div>
+</section>
+
+<section id="profile" class="view">
+<div class="welcome"><div><h2>My Profile</h2><p>Make your profile feel like you.</p></div></div>
+<div class="profilePanel"><div class="profileHero" id="profileHero">A</div><div class="panel"><h3 id="profileName">Your Profile</h3><div id="profileDetails" style="font-size:12px;line-height:1.8;color:var(--muted)"></div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><div class="settings"><button class="filter" onclick="toast('Profile editor opened — connect this to your backend in production.')">Edit Profile</button><button class="filter" onclick="toast('Privacy settings opened.')">Privacy Settings</button><button class="danger" onclick="logout()">Log Out</button></div></div></div>
+</section>
+</main>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const VERIFY_CODE="XCOM269";
+const demoUsers=[
+{id:"u1",email:"alex@skyconnection.demo",password:"demo123",name:"Alex Morgan",age:29,gender:"Man",airline:"Emirates",role:"Senior Cabin Crew",location:"Dubai",tags:["Travel","Fitness","Coffee"],verified:true,online:true,about:"Always looking for a great layover, good coffee and better company."},
+{id:"u2",email:"sofia@skyconnection.demo",password:"demo123",name:"Sofia Laurent",age:27,gender:"Woman",airline:"Etihad Airways",role:"Cabin Crew",location:"Abu Dhabi",tags:["Food","Beach","Photography"],verified:true,online:true,about:"French soul, UAE base. Love exploring new places between flights."},
+{id:"u3",email:"liam@skyconnection.demo",password:"demo123",name:"Liam Carter",age:31,gender:"Man",airline:"Qatar Airways",role:"Purser",location:"Doha",tags:["Running","Aviation","Music"],verified:true,online:false,about:"Purser by day, amateur DJ by night."},
+{id:"u4",email:"mia@skyconnection.demo",password:"demo123",name:"Mia Santos",age:28,gender:"Woman",airline:"Emirates",role:"Cabin Crew",location:"Dubai",tags:["Yoga","Brunch","Art"],verified:true,online:true,about:"Collecting passport stamps and finding the best brunch spots."},
+{id:"u5",email:"noah@skyconnection.demo",password:"demo123",name:"Noah Williams",age:34,gender:"Man",airline:"Etihad Airways",role:"Senior Cabin Crew",location:"Dubai",tags:["Cars","Gym","Travel"],verified:true,online:false,about:"Weekend road trips and long-haul stories."},
+{id:"u6",email:"emma@skyconnection.demo",password:"demo123",name:"Emma Rossi",age:30,gender:"Woman",airline:"flydubai",role:"Cabin Crew",location:"Dubai",tags:["Cooking","Dogs","Beach"],verified:true,online:true,about:"Food lover with a soft spot for sunset flights."},
+{id:"u7",email:"daniel@skyconnection.demo",password:"demo123",name:"Daniel Kim",age:26,gender:"Man",airline:"Emirates",role:"Cabin Crew",location:"Dubai",tags:["Gaming","Sushi","Gym"],verified:true,online:true,about:"I know every good sushi place in Dubai."},
+{id:"u8",email:"clara@skyconnection.demo",password:"demo123",name:"Clara Evans",age:33,gender:"Woman",airline:"Qatar Airways",role:"Purser",location:"Doha",tags:["Books","Coffee","Hiking"],verified:true,online:false,about:"Books, mountains and a quiet coffee after a busy flight."}
+];
+const events=[
+["SEP 12","Crew Sunset Dinner","Dubai · 7:30 PM","A relaxed evening for verified crew members to meet, eat and connect."],
+["SEP 20","Beach & Brunch","Jumeirah · 10:30 AM","Brunch followed by a beach afternoon with crew from different airlines."],
+["OCT 03","Layover Stories Night","Dubai · 8:00 PM","Funny, strange and unforgettable aviation stories over drinks and dinner."]
+];
+const activities=[
+["✈","Destination Swap","Tell us your favourite layover and meet someone who loves the same city."],
+["☕","Coffee Crew","Small coffee meet-ups for crew who prefer conversations over nightlife."],
+["🏃","Crew Fitness","Running, gym and wellness groups built around roster-friendly schedules."],
+["📷","Aviation Photography","Share airport views, aircraft photography and travel photography tips."],
+["🍽","Food Explorers","Discover restaurants together when your roster gives you a free evening."],
+["🎨","Creative Crew","Art, music, books and creative hobbies with like-minded crew."]
+];
+let users=[...demoUsers,...JSON.parse(localStorage.getItem("sky_users")||"[]")];
+let current=null, liked=JSON.parse(localStorage.getItem("sky_likes")||"[]"), chats=JSON.parse(localStorage.getItem("sky_chats")||"{}"), activeChat=null;
+
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("sky_users",JSON.stringify(users.filter(u=>!demoUsers.find(d=>d.id===u.id))));localStorage.setItem("sky_likes",JSON.stringify(liked));localStorage.setItem("sky_chats",JSON.stringify(chats))}
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function initials(n){return n.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase()}
+function showLogin(){ $("signupBox").classList.add("hidden");$("loginBox").classList.remove("hidden");$("signupTab").classList.remove("active");$("loginTab").classList.add("active");$("authTitle").textContent="Welcome Back";$("authSub").textContent="Log in to your cabin crew community"}
+function showSignup(){ $("loginBox").classList.add("hidden");$("signupBox").classList.remove("hidden");$("loginTab").classList.remove("active");$("signupTab").classList.add("active");$("authTitle").textContent="Create Your Account";$("authSub").textContent="Join the exclusive cabin crew community"}
+$("switchBtn").onclick=()=>{$("loginBox").classList.contains("hidden")?showLogin():showSignup()};
+$("loginTab").onclick=showLogin;$("signupTab").onclick=showSignup;
+$("verifyCode").addEventListener("input",e=>{const ok=e.target.value.trim().toUpperCase()===VERIFY_CODE;$("verifyStatus").textContent=ok?"✓ Verification Skipped":"Verification pending";$("verifyStatus").style.color=ok?"var(--green)":"var(--muted)"});
+
+$("signupForm").onsubmit=e=>{
+e.preventDefault();const f=new FormData(e.target), code=$("verifyCode").value.trim().toUpperCase(), face=f.get("facecard"),plat=f.get("platinum");
+if(code!==VERIFY_CODE && (!face||!face.name)&&(!plat||!plat.name)){return setMsg("signupMsg","Upload a Facecard or Platinum Card, or enter the authorized verification code.","err")}
+const purposes=[...document.querySelectorAll('input[name="purpose"]:checked')].map(x=>x.value);if(!purposes.length)return setMsg("signupMsg","Select at least one purpose.","err");
+if(users.some(u=>u.email.toLowerCase()===f.get("email").toLowerCase()))return setMsg("signupMsg","An account with this email already exists.","err");
+const u={id:"user_"+Date.now(),email:f.get("email"),password:f.get("password"),name:f.get("first")+" "+f.get("last"),age:calcAge(f.get("dob")),gender:f.get("gender"),airline:f.get("airline"),role:f.get("role"),location:f.get("location")||"Not specified",tags:purposes,verified:code===VERIFY_CODE,online:true,about:"New SkyConnection member."};
+users.push(u);save();current=u;openDashboard();setMsg("signupMsg",code===VERIFY_CODE?"Account created and verification skipped.":"Application submitted. Verification can take up to 48 hours.","ok")
+};
+function calcAge(d){if(!d)return 25;let x=new Date(d),n=new Date();let a=n.getFullYear()-x.getFullYear();if(n.getMonth()<x.getMonth()||(n.getMonth()===x.getMonth()&&n.getDate()<x.getDate()))a--;return a}
+function setMsg(id,t,c){$(id).textContent=t;$(id).className="msg "+c}
+
+$("loginForm").onsubmit=e=>{e.preventDefault();const em=$("loginEmail").value.trim().toLowerCase(),pw=$("loginPassword").value;const u=users.find(x=>x.email.toLowerCase()===em&&x.password===pw);if(!u)return setMsg("loginMsg","Incorrect email or password.","err");current=u;openDashboard()};
+function openDashboard(){ $("landing").style.display="none";$("dashboard").style.display="block";$("navAvatar").textContent=initials(current.name);renderAll();window.scrollTo(0,0)}
+function renderAll(){renderDiscover();renderMatches();renderChats();renderEvents();renderActivities();renderProfile()}
+document.querySelectorAll(".navLinks button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".navLinks button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$(b.dataset.view).classList.add("active");if(b.dataset.view==="messages")renderChats()});
+function renderDiscover(){const others=users.filter(u=>u.id!==current.id);$("profileGrid").innerHTML=others.map(u=>`<article class="profileCard"><div class="photo"><div class="initials">${initials(u.name)}</div>${u.online?'<span class="online">● Online</span>':''}</div><div class="pbody"><h3>${u.name}, ${u.age}</h3><div class="meta">✓ Verified · ${u.role}<br>${u.airline} · ${u.location}</div><div class="chips">${u.tags.map(t=>`<span class="chip">${t}</span>`).join("")}</div><div class="actions"><button class="pass" onclick="passUser('${u.id}')">Pass</button><button class="like" onclick="likeUser('${u.id}')">♡ Like</button></div></div></article>`).join("")}
+function likeUser(id){if(!liked.includes(id))liked.push(id);save();const u=users.find(x=>x.id===id);toast(`You liked ${u.name.split(" ")[0]} ♡`);renderMatches()}
+function passUser(id){toast("Profile passed");const card=[...document.querySelectorAll(".profileCard")].find(x=>x.innerText.includes(users.find(u=>u.id===id).name));if(card)card.remove()}
+function renderMatches(){const list=users.filter(u=>liked.includes(u.id));$("matchesList").innerHTML=list.length?list.map(u=>`<div class="match"><div class="mavatar">${initials(u.name)}</div><div><b>${u.name}</b><small>${u.airline} · ${u.location}</small></div><button onclick="startChat('${u.id}')">Message</button></div>`).join(""):'<div class="empty">Like people in Discover to build your matches.</div>'}
+function startChat(id){activeChat=id;document.querySelector('[data-view="messages"]').click();renderChats()}
+function renderChats(){const list=users.filter(u=>liked.includes(u.id));$("chatList").innerHTML=list.length?list.map(u=>`<div class="chatItem ${activeChat===u.id?'active':''}" onclick="activeChat='${u.id}';renderChats()"><div class="mavatar">${initials(u.name)}</div><div><b style="font-size:11px">${u.name}</b><small style="display:block;color:var(--muted);font-size:9px">${(chats[u.id]?.slice(-1)[0]?.text)||"Start a conversation"}</small></div></div>`).join(""):'<div class="empty" style="padding:25px">No conversations yet.</div>';
+if(!activeChat&&list.length)activeChat=list[0].id;
+const u=users.find(x=>x.id===activeChat);$("chatHead").textContent=u?u.name:"Select a conversation";const arr=chats[activeChat]||[];$("messages").innerHTML=arr.map(m=>`<div class="bubble ${m.me?'me':''}">${escapeHtml(m.text)}</div>`).join("");$("messages").scrollTop=$("messages").scrollHeight}
+$("sendBtn").onclick=sendMessage;$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage()});
+function sendMessage(){const text=$("chatInput").value.trim();if(!text||!activeChat)return;if(!chats[activeChat])chats[activeChat]=[];chats[activeChat].push({me:true,text});save();$("chatInput").value="";renderChats();setTimeout(()=>{const u=users.find(x=>x.id===activeChat);chats[activeChat].push({me:false,text:`Hey ${current.name.split(" ")[0]}! Great to connect. ✈️`});save();renderChats()},700)}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function renderEvents(){$("eventsGrid").innerHTML=events.map(e=>`<article class="event"><div class="date">${e[0]}</div><h3>${e[1]}</h3><div style="font-size:10px;color:var(--red)">${e[2]}</div><p>${e[3]}</p><button onclick="toast('You are on the guest list for ${e[1]}')">Join Gathering</button></article>`).join("")}
+function renderActivities(){$("activitiesGrid").innerHTML=activities.map(a=>`<article class="event"><div style="font-size:26px">${a[0]}</div><h3>${a[1]}</h3><p>${a[2]}</p><button onclick="toast('Activity joined — we will show you people with the same interest.')">Join Activity</button></article>`).join("")}
+function renderProfile(){$("profileHero").textContent=initials(current.name);$("profileName").textContent=current.name;$("profileDetails").innerHTML=`<b style="color:#3e2723">${current.age} · ${current.role}</b><br>✓ Verified crew member<br>${current.airline} · ${current.location}<br><br>${current.about}<br><br><b>Interests</b><br>${current.tags.map(t=>`<span class="chip" style="display:inline-block;margin:4px 3px 0 0">${t}</span>`).join("")}`}
+function logout(){current=null;activeChat=null;$("dashboard").style.display="none";$("landing").style.display="grid";showLogin();toast("Logged out")}
+</script>
+</body>
+</html>

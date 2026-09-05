@@ -188,8 +188,11 @@ function attachSwipeGesture(card,targetId){
   const down=e=>{if(e.target.closest('button'))return;const pt=e.touches?e.touches[0]:e;startX=pt.clientX;startY=pt.clientY;currentX=0;dragging=true;moved=false;card.style.transition='none';};
   const move=e=>{if(!dragging)return;const pt=e.touches?e.touches[0]:e;currentX=pt.clientX-startX;const dy=pt.clientY-startY;if(Math.abs(currentX)>8)moved=true;if(Math.abs(currentX)>Math.abs(dy)*1.1){e.preventDefault();setHint();}};
   const up=()=>{if(!dragging)return;finish(currentX>0?'like':'pass');};
-  card.addEventListener('pointerdown',down);card.addEventListener('pointermove',move,{passive:false});card.addEventListener('pointerup',up);card.addEventListener('pointercancel',up);
-  card.addEventListener('touchstart',down,{passive:true});card.addEventListener('touchmove',move,{passive:false});card.addEventListener('touchend',up,{passive:true});
+  if(window.PointerEvent){
+    card.addEventListener('pointerdown',down);card.addEventListener('pointermove',move,{passive:false});card.addEventListener('pointerup',up);card.addEventListener('pointercancel',up);
+  }else{
+    card.addEventListener('touchstart',down,{passive:true});card.addEventListener('touchmove',move,{passive:false});card.addEventListener('touchend',up,{passive:true});
+  }
 }
 
 
@@ -321,11 +324,24 @@ async function initAuth(){
 }
 
 function initTabs(){
- const s=document.getElementById("signupTab"),l=document.getElementById("loginTab"),sw=document.getElementById("switchBtn"),sb=document.getElementById("signupBox"),lb=document.getElementById("loginBox"),title=document.getElementById("authTitle"),sub=document.getElementById("authSub");
- function signup(){s.classList.add("active");l.classList.remove("active");sb.classList.remove("hidden");lb.classList.add("hidden");title.textContent="Create Your Account";sub.textContent="Join the exclusive global cabin crew network";sw.textContent="Log In";}
- function login(){l.classList.add("active");s.classList.remove("active");lb.classList.remove("hidden");sb.classList.add("hidden");title.textContent="Welcome Back";sub.textContent="Access your SkyConnection community profile";sw.textContent="Sign Up";}
- s.onclick=signup;l.onclick=login;sw.onclick=()=>sb.classList.contains("hidden")?signup():login();
- login();
+ const s=document.getElementById("signupTab"),l=document.getElementById("loginTab"),sw=document.getElementById("switchBtn"),sb=document.getElementById("signupBox"),lb=document.getElementById("loginBox"),title=document.getElementById("authTitle"),sub=document.getElementById("authSub"),auth=document.querySelector(".auth");
+ if(!s||!l||!sw||!sb||!lb||!auth)return;
+ function setMode(mode){
+   const isSignup=mode==="signup";
+   auth.classList.toggle("signup-mode",isSignup);
+   s.classList.toggle("active",isSignup);
+   l.classList.toggle("active",!isSignup);
+   sb.classList.toggle("hidden",!isSignup);
+   lb.classList.toggle("hidden",isSignup);
+   title.textContent=isSignup?"Create Your Account":"Welcome Back";
+   sub.textContent=isSignup?"Join the exclusive global cabin crew network":"Access your SkyConnection community profile";
+   sw.textContent=isSignup?"Log In":"Sign Up";
+   document.body.dataset.authMode=isSignup?"signup":"login";
+ }
+ s.onclick=()=>setMode("signup");
+ l.onclick=()=>setMode("login");
+ sw.onclick=()=>setMode(document.body.dataset.authMode==="signup"?"login":"signup");
+ setMode("login");
 }
 function initVerification(){const s=document.getElementById("verifyStatus");if(s){s.textContent="Pending review";s.classList.remove("good");}}
 function bindStaticActions(){document.addEventListener("click",e=>{const b=e.target.closest("[data-action]");if(!b)return;const a=b.dataset.action;switch(a){case"edit-profile":openEditModal();break;case"privacy-settings":openPrivacyModal();break;case"logout":logout();break;case"delete-account":deleteAccount();break;case"close-event":closeEventModal();break;case"close-edit":closeEditModal();break;case"close-privacy":closePrivacyModal();break;case"save-privacy":savePrivacy();break;case"close-report":closeReportModal();break;case"submit-report":submitReport();break;}});}

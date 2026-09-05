@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#881337">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self'; script-src 'self'">
+<title>SkyConnection — Cabin Crew Community</title>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div id="landing" class="landing">
+
+<section class="hero">
+<div>
+<div class="brand">♡✈ SKYCONNECTION
+<small>CABIN CREW COMMUNITY</small>
+</div>
+
+<h1>
+Where Aviation<br>Connects.
+<i>A curated lifestyle experience.</i>
+</h1>
+
+<p>
+An exclusive community for cabin crew — designed for meaningful connections,
+global friendships, curated gatherings and lifestyle experiences around aviation schedules.
+</p>
+</div>
+
+<div class="features">
+<div class="feature">
+<div class="fi">♡</div>
+<div><b>Verified Connections</b>
+<span>Meet cabin crew through a structured community experience.</span></div>
+</div>
+
+<div class="feature">
+<div class="fi">♧</div>
+<div><b>Global Network</b>
+<span>Build friendships across international destinations and carriers.</span></div>
+</div>
+
+<div class="feature">
+<div class="fi">◫</div>
+<div><b>Curated Gatherings</b>
+<span>Discover crew dinners, layover meetups and activities.</span></div>
+</div>
+</div>
+
+<div class="heroquote">
+“We don't just connect flights, we connect hearts across every time zone.”
+</div>
+</section>
+
+<section class="authWrap">
+<div class="auth">
+
+<div class="authHead">
+<div>
+<h2 class="title" id="authTitle">Create Your Account</h2>
+<div class="sub" id="authSub">Join the exclusive global cabin crew network</div>
+</div>
+<button class="switch" id="switchBtn" type="button">Log In</button>
+</div>
+
+<div class="tabs">
+<button class="tab active" id="signupTab" type="button">Sign Up</button>
+<button class="tab" id="loginTab" type="button">Log In</button>
+</div>
+
+<div id="signupBox">
+
+<div class="notice">
+<b>Verification Required</b>
+For this single-file demo, verification is simulated.
+Use the demo verification code <strong>CREW2026</strong>.
+In a real deployment, verification must happen on a server.
+</div>
+
+<form id="signupForm" novalidate>
+
+<h3>Account Credentials</h3>
+
+<div class="grid two">
+<label class="field">
+Email
+<input required type="email" name="email" autocomplete="email" placeholder="you@airline.com">
+</label>
+
+<label class="field">
+Password
+<input required type="password" name="password" minlength="8" autocomplete="new-password" placeholder="Minimum 8 characters">
+</label>
+</div>
+
+<h3>Personal Information</h3>
+
+<div class="grid">
+<label class="field">First Name
+<input required name="first" maxlength="40" autocomplete="given-name">
+</label>
+
+<label class="field">Last Name
+<input required name="last" maxlength="40" autocomplete="family-name">
+</label>
+
+<label class="field">Date of Birth
+<input required type="date" name="dob">
+</label>
+</div>
+
+<div class="grid two inline-style-1">
+<label class="field">Gender
+<select required name="gender">
+<option value="">Select Gender</option>
+<option>Woman</option>
+<option>Man</option>
+<option>Non-binary</option>
+<option>Prefer not to say</option>
+</select>
+</label>
+
+<label class="field">Nationality
+<select required name="nationality">
+<option value="">Select Nationality</option>
+<option>American</option>
+<option>Australian</option>
+<option>British</option>
+<option>Canadian</option>
+<option>Emirati</option>
+<option>French</option>
+<option>German</option>
+<option>Indian</option>
+<option>Italian</option>
+<option>Spanish</option>
+<option>Other</option>
+</select>
+</label>
+</div>
+
+<h3>Cabin Crew Details</h3>
+
+<div class="grid">
+<label class="field">Airline
+<select required name="airline">
+<option value="">Select Airline</option>
+<option>Emirates</option>
+<option>Etihad Airways</option>
+<option>Qatar Airways</option>
+<option>flydubai</option>
+<option>British Airways</option>
+<option>Other</option>
+</select>
+</label>
+
+<label class="field">Staff Number
+<input required name="staff" maxlength="40">
+</label>
+
+<label class="field">Role
+<select required name="role">
+<option value="">Select Role</option>
+<option>Cabin Crew</option>
+<option>Senior Cabin Crew</option>
+<option>Purser</option>
+<option>Former Cabin Crew</option>
+</select>
+</label>
+</div>
+
+<h3>Profile Photo</h3>
+
+<label class="field">
+Upload Picture
+<input type="file" id="signupPhoto" accept="image/jpeg,image/png,image/webp">
+</label>
+
+<h3>Verification Document</h3>
+
+<div class="uploads">
+<div class="upload">
+<b>▣ Facecard</b>
+<small>JPG, PNG or PDF. Max 2MB.</small>
+<input type="file" id="facecard" accept=".jpg,.jpeg,.png,.pdf">
+</div>
+
+<div class="upload">
+<b>▤ Platinum Card</b>
+<small>JPG, PNG or PDF. Max 2MB.</small>
+<input type="file" id="platinum" accept=".jpg,.jpeg,.png,.pdf">
+</div>
+</div>
+
+<div class="code"><div id="verifyStatus" class="verified">Pending review</div><small class="verificationNote">Verification is completed by the secure platform backend. This static demo never stores FaceCard or Platinum Card files in the browser.</small></div>
+</div>
+
+<h3>Preferences & Intentions</h3>
+
+<div class="grid">
+<label class="field">Looking For
+<select name="looking">
+<option>Women</option>
+<option>Men</option>
+<option>Everyone</option>
+</select>
+</label>
+
+<label class="field">Age Range
+<select name="age">
+<option>18–25</option>
+<option>26–35</option>
+<option>36–45</option>
+<option>46+</option>
+</select>
+</label>
+
+<label class="field">Base / Location
+<input name="location" maxlength="80" placeholder="Dubai, London, Doha...">
+</label>
+</div>
+
+<div class="checks">
+<label><input type="checkbox" name="purpose" value="Dating"> Dating</label>
+<label><input type="checkbox" name="purpose" value="Friendship"> Friendship</label>
+<label><input type="checkbox" name="purpose" value="Gatherings"> Gatherings</label>
+<label><input type="checkbox" name="purpose" value="Activities"> Activities</label>
+</div>
+
+<label class="inline-style-2">
+<input required type="checkbox" class="inline-style-3">
+<span>I agree to the Community Terms of Service and Privacy Guidelines.</span>
+</label>
+
+<button class="mainBtn" id="signupBtn" type="submit">Create Account ♡</button>
+<div id="signupMsg" class="msg"></div>
+
+</form>
+</div>
+
+<div id="loginBox" class="loginBox hidden">
+
+<div class="notice">
+<b>Welcome Back</b>
+Log in to your SkyConnection community account.
+</div>
+
+<form id="loginForm" novalidate>
+
+<label class="field">
+Email
+<input required id="loginEmail" type="email" autocomplete="email" placeholder="you@airline.com">
+</label>
+
+<label class="field inline-style-4">
+Password
+<input required id="loginPassword" type="password" autocomplete="current-password">
+</label>
+
+<button class="mainBtn" id="loginBtn" type="submit">Log In</button>
+<div id="loginMsg" class="msg"></div>
+</form>
+
+<div class="demo">
+<b>Demo Accounts</b><br>
+alex@skyconnection.demo / demo123<br>
+sofia@skyconnection.demo / demo123<br>
+zara@skyconnection.demo / demo123<br>
+liam@skyconnection.demo / demo123
+</div>
+
+</div>
+</div>
+</section>
+</div>
+
+<div id="dashboard" class="dashboard">
+
+<nav class="dashNav">
+<div class="dashBrand">♡✈ SKYCONNECTION</div>
+
+<div class="navLinks" id="navLinks">
+<button data-view="discover" class="active" type="button">Discover</button>
+<button data-view="matches" type="button">Matches</button>
+<button data-view="messages" type="button">Messages</button>
+<button data-view="events" type="button">Gatherings</button>
+<button data-view="profile" type="button">My Profile</button>
+</div>
+
+<div class="avatarMini" id="navAvatar" title="My Profile">A</div>
+</nav>
+
+<main class="content">
+
+<section id="discover" class="view active">
+<div class="welcome">
+<div>
+<h2>Discover your crew</h2>
+<p>Profiles based on your community preferences.</p>
+</div>
+</div>
+<div id="discoverArea" class="discoverContainer"></div>
+</section>
+
+<section id="matches" class="view">
+<div class="welcome">
+<div>
+<h2>Your Connections</h2>
+<p>Manage pending and mutual connections.</p>
+</div>
+</div>
+
+<div class="cards2">
+<div class="panel">
+<h3>Mutual Matches</h3>
+<div id="matchesList" class="matchList"></div>
+</div>
+
+<div class="panel">
+<h3>Connection Requests</h3>
+<div id="requestsList" class="matchList"></div>
+</div>
+</div>
+</section>
+
+<section id="messages" class="view">
+<div class="welcome">
+<div>
+<h2>Messages</h2>
+<p>Continue your active conversations.</p>
+</div>
+</div>
+
+<div class="chat">
+<div class="chatList" id="chatList"></div>
+
+<div class="chatWindow" id="chatWindow">
+
+<div class="chatHead">
+<button class="smallBtn mobileBack" id="backChats" type="button">← Conversations</button>
+<span id="chatHeadTitle">Select a conversation</span>
+<div id="chatHeadAction"></div>
+</div>
+
+<div class="messages" id="messagesContainer"></div>
+
+<div class="chatInput">
+<input id="chatInput" maxlength="1000" placeholder="Write a message..." disabled>
+<button id="sendBtn" type="button" disabled>Send</button>
+</div>
+
+</div>
+</div>
+</section>
+
+<section id="events" class="view">
+<div class="welcome">
+<div>
+<h2>Gatherings & Activities</h2>
+<p>Exclusive meet-ups and crew lifestyle activities.</p>
+</div>
+</div>
+<div id="eventsGrid" class="events"></div>
+</section>
+
+<section id="profile" class="view">
+<div class="welcome">
+<div>
+<h2>My Profile</h2>
+<p>Manage your profile and privacy.</p>
+</div>
+</div>
+
+<div class="profilePanel">
+
+<div class="profileHero" id="profileHero">A</div>
+
+<div class="panel">
+<h3 id="profileName" class="inline-style-5">Your Profile</h3>
+<div id="profileDetails" class="inline-style-6"></div>
+
+<hr class="inline-style-32">
+
+<div class="settings">
+<button class="mainBtn inline-style-7" data-action="edit-profile" type="button">Edit Profile</button>
+<button class="mainBtn inline-style-8" data-action="privacy-settings" type="button">Privacy Settings</button>
+<button class="danger" data-action="logout" type="button">Log Out</button>
+<button class="danger" data-action="delete-account" type="button">Delete Local Account</button>
+</div>
+</div>
+
+</div>
+</section>
+
+</main>
+</div>
+
+<!-- EVENT MODAL -->
+<div id="eventModal" class="modal-overlay">
+<div class="modal-content">
+<div class="modal-header">
+<h3 id="modalEventTitle">Event Details</h3>
+<button class="close-modal" data-action="close-event" type="button">&times;</button>
+</div>
+<div id="modalEventBody" class="inline-style-9"></div>
+<div class="inline-style-10">
+<button id="modalJoinBtn" class="mainBtn inline-style-11" type="button">Join Event</button>
+<button data-action="close-event" class="passBtn inline-style-12" type="button">Close</button>
+</div>
+</div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal-overlay">
+<div class="modal-content">
+<div class="modal-header">
+<h3>Edit Your Profile</h3>
+<button class="close-modal" data-action="close-edit" type="button">&times;</button>
+</div>
+
+<form id="editForm" novalidate>
+
+<label class="field">
+Full Name
+<input required id="editName" maxlength="80">
+</label>
+
+<label class="field inline-style-13">
+Base / Location
+<input required id="editLocation" maxlength="80">
+</label>
+
+<label class="field inline-style-14">
+Role
+<select id="editRole">
+<option>Cabin Crew</option>
+<option>Senior Cabin Crew</option>
+<option>Purser</option>
+<option>Former Cabin Crew</option>
+</select>
+</label>
+
+<label class="field inline-style-15">
+Bio
+<textarea id="editBio" maxlength="500"></textarea>
+</label>
+
+<label class="field inline-style-16">
+New Profile Picture
+<input type="file" id="editPhoto" accept="image/jpeg,image/png,image/webp">
+</label>
+
+<button class="mainBtn" type="submit">Save Changes</button>
+</form>
+</div>
+</div>
+
+<!-- PRIVACY MODAL -->
+<div id="privacyModal" class="modal-overlay">
+<div class="modal-content">
+<div class="modal-header">
+<h3>Privacy Settings</h3>
+<button class="close-modal" data-action="close-privacy" type="button">&times;</button>
+</div>
+
+<div class="inline-style-17">
+<p>These settings control how your profile behaves inside this local demo.</p>
+
+<div class="checks inline-style-18">
+
+<label>
+<input type="checkbox" id="privacyDiscover">
+Show profile in discovery
+</label>
+
+<label>
+<input type="checkbox" id="privacyMessages">
+Allow messages from matches
+</label>
+
+<label>
+<input type="checkbox" id="privacyAirline">
+Display airline
+</label>
+
+<label>
+<input type="checkbox" id="privacyBase">
+Display base
+</label>
+
+</div>
+</div>
+
+<button class="mainBtn inline-style-19" data-action="save-privacy" type="button">Save Preferences</button>
+</div>
+</div>
+
+<!-- REPORT MODAL -->
+<div id="reportModal" class="modal-overlay">
+<div class="modal-content">
+<div class="modal-header">
+<h3>Report Profile</h3>
+<button class="close-modal" data-action="close-report" type="button">&times;</button>
+</div>
+
+<p class="inline-style-20">
+Reports are stored locally in this single-file demo. In production they should be sent to a secure moderation system.
+</p>
+
+<select id="reportReason">
+<option>Spam</option>
+<option>Harassment</option>
+<option>Impersonation</option>
+<option>Inappropriate content</option>
+<option>Safety concern</option>
+<option>Other</option>
+</select>
+
+<button class="mainBtn inline-style-21" data-action="submit-report" type="button">Submit Report</button>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

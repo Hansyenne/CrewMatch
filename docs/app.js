@@ -46,8 +46,11 @@ function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 function sanitizeHTML(str){
   return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
+const DATA_IMAGE_RE=/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/;
 function safeImageUrl(v){
-  try { const u=new URL(String(v||""),location.href); if(u.protocol==="https:" && u.hostname==="images.unsplash.com") return u.href; } catch(_){}
+  const s=String(v||"");
+  if(DATA_IMAGE_RE.test(s) && s.length<=Math.ceil(MAX_IMAGE_BYTES/3*4)+64) return s;
+  try { const u=new URL(s,location.href); if(u.protocol==="https:" && u.hostname==="images.unsplash.com") return u.href; } catch(_){}
   return defaultAvatar;
 }
 function escapeAttr(v){ return sanitizeHTML(v).replace(/`/g,"&#096;"); }
@@ -62,9 +65,13 @@ function storageSet(key,value){ try{ if(value.length>MAX_DB_BYTES) throw new Err
 function getSession(){ try{return sessionStorage.getItem(SESSION_KEY);}catch(_){return null;} }
 function setSession(id){ try{ if(id)sessionStorage.setItem(SESSION_KEY,id);else sessionStorage.removeItem(SESSION_KEY); }catch(_){} }
 
+const ALLOWED_LOOKING=new Set(["Women","Men","Everyone"]);
+const ALLOWED_AGE_RANGE=new Set(["18–25","26–35","36–45","46+"]);
+const ALLOWED_PURPOSES=new Set(["Dating","Friendship","Gatherings","Activities"]);
+function oneOf(v,allowed,fallback=""){ const s=String(v||""); return allowed.has(s)?s:fallback; }
 function cleanUser(u){
   if(!u || !safeId(u.id)) return null;
-  return {id:String(u.id),email:normalizeEmail(u.email),name:text(u.name,120),dob:/^\d{4}-\d{2}-\d{2}$/.test(u.dob)?u.dob:"",gender:text(u.gender,40),nationality:text(u.nationality,80),staff:text(u.staff,40),role:text(u.role,60),airline:text(u.airline,100),location:text(u.location,80),avatarUrl:safeImageUrl(u.avatarUrl),bio:text(u.bio,MAX_BIO_LENGTH),verified:Boolean(u.verified),privacy:{discoverable:u.privacy?.discoverable!==false,allowMessages:u.privacy?.allowMessages!==false,showAirline:u.privacy?.showAirline!==false,showBase:u.privacy?.showBase!==false},purposes:Array.isArray(u.purposes)?u.purposes.map(x=>text(x,40)).filter(Boolean).slice(0,10):[],passwordRecord:(u.passwordRecord?.algo==="PBKDF2-SHA-256"&&typeof u.passwordRecord.hash==="string"&&typeof u.passwordRecord.salt==="string")?{algo:"PBKDF2-SHA-256",iterations:Number(u.passwordRecord.iterations)||150000,salt:u.passwordRecord.salt,hash:u.passwordRecord.hash}:undefined};
+  return {id:String(u.id),email:normalizeEmail(u.email),name:text(u.name,120),dob:/^\d{4}-\d{2}-\d{2}$/.test(u.dob)?u.dob:"",gender:text(u.gender,40),nationality:text(u.nationality,80),staff:text(u.staff,40),role:text(u.role,60),airline:text(u.airline,100),location:text(u.location,80),avatarUrl:safeImageUrl(u.avatarUrl),bio:text(u.bio,MAX_BIO_LENGTH),verified:Boolean(u.verified),lookingFor:oneOf(u.lookingFor,ALLOWED_LOOKING),agePref:oneOf(u.agePref,ALLOWED_AGE_RANGE),privacy:{discoverable:u.privacy?.discoverable!==false,allowMessages:u.privacy?.allowMessages!==false,showAirline:u.privacy?.showAirline!==false,showBase:u.privacy?.showBase!==false},purposes:Array.isArray(u.purposes)?[...new Set(u.purposes.map(x=>oneOf(x,ALLOWED_PURPOSES)).filter(Boolean))].slice(0,10):[],passwordRecord:(u.passwordRecord?.algo==="PBKDF2-SHA-256"&&typeof u.passwordRecord.hash==="string"&&typeof u.passwordRecord.salt==="string")?{algo:"PBKDF2-SHA-256",iterations:Number(u.passwordRecord.iterations)||150000,salt:u.passwordRecord.salt,hash:u.passwordRecord.hash}:undefined};
 }
 function newDB(){
   return {version:5,users:clone(initialUsers),matches:[{user1:"1",user2:"2",status:"mutual",requester:"1"},{user1:"1",user2:"3",status:"pending",requester:"3"}],likes:[{from:"1",to:"2"},{from:"2",to:"1"},{from:"3",to:"1"}],passes:[],messages:[{id:"m1",sender:"1",receiver:"2",text:"Hey Sofia! Nice to connect with another crew member here.",timestamp:Date.now()-3600000},{id:"m2",sender:"2",receiver:"1",text:"Hi Alex! Always great to meet folks from other carriers. How is your roster looking this month?",timestamp:Date.now()-1800000}],events:clone(initialEvents),reports:[]};
@@ -255,7 +262,8 @@ function toggleJoinEvent(eventId){const db=getDB(),ev=db.events.find(e=>e.id===e
 window.openEventModal=openEventModal;window.closeEventModal=closeEventModal;window.toggleJoinEvent=toggleJoinEvent;
 
 function renderProfile(){
- const hero=document.getElementById("profileHero"),details=document.getElementById("profileDetails");hero.textContent="";if(currentUser.avatarUrl){const img=document.createElement("img");img.src=safeImageUrl(currentUser.avatarUrl);img.alt="Profile";img.referrerPolicy="no-referrer";hero.appendChild(img);}else hero.textContent=currentUser.name.charAt(0);document.getElementById("profileName").textContent=currentUser.name;details.innerHTML=`<b>Airline:</b> ${sanitizeHTML(currentUser.airline)}<br><b>Role:</b> ${sanitizeHTML(currentUser.role)}<br><b>Base:</b> ${sanitizeHTML(currentUser.location)}<br><b>Nationality:</b> ${sanitizeHTML(currentUser.nationality)}<br><b>Bio:</b> ${sanitizeHTML(currentUser.bio)}`;
+ const hero=document.getElementById("profileHero"),details=document.getElementById("profileDetails");hero.textContent="";if(currentUser.avatarUrl){const img=document.createElement("img");img.src=safeImageUrl(currentUser.avatarUrl);img.alt="Profile";img.referrerPolicy="no-referrer";hero.appendChild(img);}else hero.textContent=currentUser.name.charAt(0);document.getElementById("profileName").textContent=currentUser.name;const prefBits=[currentUser.lookingFor?`Looking for: ${sanitizeHTML(currentUser.lookingFor)}`:'',currentUser.agePref?`Age range: ${sanitizeHTML(currentUser.agePref)}`:'',currentUser.purposes.length?`Purpose: ${currentUser.purposes.map(sanitizeHTML).join(', ')}`:''].filter(Boolean).join('<br>');
+details.innerHTML=`<b>Airline:</b> ${sanitizeHTML(currentUser.airline)}<br><b>Role:</b> ${sanitizeHTML(currentUser.role)}<br><b>Base:</b> ${sanitizeHTML(currentUser.location)}<br><b>Nationality:</b> ${sanitizeHTML(currentUser.nationality)}<br><b>Bio:</b> ${sanitizeHTML(currentUser.bio)}${prefBits?'<br>'+prefBits:''}`;
 }
 function openEditModal(){document.getElementById("editName").value=currentUser.name;document.getElementById("editLocation").value=currentUser.location;document.getElementById("editRole").value=currentUser.role;document.getElementById("editBio").value=currentUser.bio||"";document.getElementById("editModal").classList.add("show");}
 function closeEditModal(){document.getElementById("editModal").classList.remove("show");}
@@ -315,7 +323,9 @@ async function initAuth(){
       const age=calculateAge(dob); if(age===null){msg(out,"You must be 18 or older.","error");return;}
       const db=getDB(); if(db.users.some(u=>u.email===email)){msg(out,"An account with this email already exists.","error");return;}
       const id=crypto.randomUUID();
-      const u=cleanUser({id,email,passwordRecord:await makePasswordRecord(password),name:`${first} ${last}`,dob,gender:text(fd.get("gender"),40),nationality:text(fd.get("nationality"),80),staff:text(fd.get("staff"),40),role:text(fd.get("role"),60),airline:text(fd.get("airline"),100),location:text(fd.get("location"),80),avatarUrl:defaultAvatar,bio:text(fd.get("bio"),MAX_BIO_LENGTH),verified:false,privacy:{discoverable:true,allowMessages:true,showAirline:true,showBase:true},purposes:[]});
+      const purposes=fd.getAll("purpose").map(String);
+      const photo=await readImageFile(document.getElementById("signupPhoto"));
+      const u=cleanUser({id,email,passwordRecord:await makePasswordRecord(password),name:`${first} ${last}`,dob,gender:text(fd.get("gender"),40),nationality:text(fd.get("nationality"),80),staff:text(fd.get("staff"),40),role:text(fd.get("role"),60),airline:text(fd.get("airline"),100),location:text(fd.get("location"),80),avatarUrl:photo||defaultAvatar,bio:text(fd.get("bio"),MAX_BIO_LENGTH),verified:false,lookingFor:fd.get("looking"),agePref:fd.get("age"),privacy:{discoverable:true,allowMessages:true,showAirline:true,showBase:true},purposes});
       if(!u||!u.passwordRecord) throw new Error("Could not create account");
       db.users.push(u); saveDB(db); currentUser=u; setSession(u.id); msg(out,"Account created successfully.","success"); showDashboard();
     }catch(err){console.error(err);msg(out,"Unable to create your account right now.","error");}

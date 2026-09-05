@@ -814,3 +814,119 @@ body{background:var(--cm-cream)}
   .hero h1{font-size:41px}.features{display:none}.heroquote{margin-top:18px}
   .auth .title{font-size:22px}.switch{padding:6px 9px}.loginBox .demo{font-size:9px}
 }
+
+/* =========================================================
+   DASHBOARD 2026 — BOLDER, MORE MODERN MAIN APP
+   Scoped to the post-login experience only; landing/auth
+   screens above are untouched.
+   ========================================================= */
+:root{
+  --db-grad:linear-gradient(135deg,#a3123f 0%,#881337 55%,#5f0825 100%);
+  --db-grad-soft:linear-gradient(135deg,rgba(163,18,63,.09),rgba(180,83,9,.06));
+  --db-gold:#c2790f;
+  --db-ink:#160c0f;
+  --db-shadow-lg:0 30px 60px -18px rgba(95,8,37,.28),0 8px 20px -6px rgba(22,12,15,.08);
+  --db-shadow-md:0 16px 34px -12px rgba(95,8,37,.16),0 3px 10px rgba(22,12,15,.05);
+  --db-radius:26px;
+}
+
+.dashboard{background:
+  radial-gradient(circle at 100% 0%,rgba(163,18,63,.05),transparent 40%),
+  radial-gradient(circle at 0% 100%,rgba(194,121,15,.05),transparent 35%),
+  var(--bg-cream);
+}
+
+/* --- Nav: bolder brand mark, pill nav with gradient active state --- */
+.dashNav{
+  background:rgba(255,255,255,.82);backdrop-filter:blur(20px) saturate(160%);
+  border-bottom:1px solid rgba(136,19,55,.09);
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 12px 30px -20px rgba(95,8,37,.25);
+}
+.dashBrand{
+  font-size:19px;letter-spacing:.5px;font-weight:900;
+  background:var(--db-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.navLinks{gap:4px;padding:6px;background:#f6f0ec;border-radius:16px;border:1px solid rgba(136,19,55,.08)}
+.navLinks button{
+  border-radius:11px;font-weight:700;font-size:12.5px;letter-spacing:.2px;
+  color:var(--text-muted);min-height:42px;
+}
+.navLinks button:hover{background:rgba(255,255,255,.9);color:var(--primary)}
+.navLinks button.active{
+  background:var(--db-grad);color:#fff;box-shadow:0 10px 22px -8px rgba(136,19,55,.55);
+}
+.avatarMini{
+  border-radius:14px;border:2px solid #fff;
+  box-shadow:0 0 0 2px rgba(136,19,55,.35),0 10px 20px -8px rgba(95,8,37,.35);
+  width:44px;height:44px;transition:transform .2s ease;
+}
+.avatarMini:hover{transform:translateY(-2px) scale(1.03)}
+
+/* --- Welcome banners: give every section a bold gradient header card --- */
+.welcome{
+  position:relative;overflow:hidden;align-items:center;gap:20px;
+  padding:28px 32px;margin-bottom:36px;border-radius:24px;
+  background:var(--db-grad);box-shadow:var(--db-shadow-lg);
+}
+.welcome:before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 0%,rgba(255,255,255,.18),transparent 55%);
+  pointer-events:none;
+}
+.welcome h2{
+  color:#fff;font:800 30px/1.15 "Playfair Display",serif;letter-spacing:-.4px;position:relative;z-index:1;
+}
+.welcome p{color:rgba(255,255,255,.82);font-weight:500;font-size:13px;position:relative;z-index:1}
+
+/* --- Discover / swipe card: bolder frame, richer depth --- */
+.tinderCard{border-radius:32px;box-shadow:var(--db-shadow-lg);border-color:rgba(136,19,55,.1)}
+.online{background:rgba(21,128,61,.95);color:#fff;font-weight:800;letter-spacing:.3px}
+.swipeBadge{background:var(--db-grad);color:#fff;border:0;box-shadow:0 6px 14px -4px rgba(136,19,55,.4)}
+.chip{background:var(--db-grad-soft);color:var(--primary);font-weight:700;border:1px solid rgba(136,19,55,.12)}
+.tinderActions .likeBtn{background:var(--db-grad);box-shadow:0 14px 30px -8px rgba(136,19,55,.5)}
+.tinderActions .likeBtn:hover{transform:translateY(-2px)}
+.tinderActions .passBtn:hover{transform:translateY(-2px)}
+.emptyDeck{border-radius:32px;box-shadow:var(--db-shadow-md)}
+
+/* --- Panels (matches, requests, chat, events, profile) --- */
+.panel{
+  border-radius:var(--db-radius);box-shadow:var(--db-shadow-md);
+  border:1px solid rgba(136,19,55,.08);position:relative;overflow:hidden;
+}
+.panel:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--db-grad)}
+.panel h3{font:800 15px "Plus Jakarta Sans",sans-serif;text-transform:uppercase;letter-spacing:1px;color:var(--primary)}
+.match,.chatContact{transition:transform .15s ease,box-shadow .15s ease}
+.match:hover{transform:translateY(-1px);box-shadow:0 8px 20px -10px rgba(95,8,37,.25)}
+.smallBtn{border-radius:999px;font-weight:800;letter-spacing:.2px}
+.smallBtn:not(.dangerBtn){border-color:rgba(136,19,55,.18)}
+.dangerBtn{border-radius:999px;font-weight:800}
+
+/* --- Events / gatherings --- */
+.event{
+  border-radius:var(--db-radius);box-shadow:var(--db-shadow-md);border-color:rgba(136,19,55,.08);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.event:hover{transform:translateY(-4px);box-shadow:var(--db-shadow-lg)}
+.date{background:var(--db-grad-soft);display:inline-block;padding:4px 10px;border-radius:8px}
+.eventStatus{background:#f0fdf4;color:var(--green);display:inline-block;padding:5px 12px;border-radius:999px;font-weight:800}
+
+/* --- Chat --- */
+.chat{border-radius:var(--db-radius);box-shadow:var(--db-shadow-md);border-color:rgba(136,19,55,.08)}
+.chatHead{background:linear-gradient(180deg,#fff,#fdfbfa)}
+.chatContact.active{background:var(--db-grad-soft);border:1px solid rgba(136,19,55,.14)}
+.bubble.me{background:var(--db-grad);box-shadow:0 6px 16px -6px rgba(136,19,55,.4)}
+.chatInput button{border-radius:999px;background:var(--db-grad);font-weight:800;box-shadow:0 10px 22px -8px rgba(136,19,55,.4)}
+
+/* --- Profile --- */
+.profileHero{border-radius:var(--db-radius);box-shadow:var(--db-shadow-lg);background:var(--db-grad);color:#fff}
+.profileHero img{filter:saturate(1.05)}
+#profile .panel:before{background:linear-gradient(135deg,var(--db-gold),var(--primary))}
+#editModal .mainBtn,#privacyModal .mainBtn{background:var(--db-grad);box-shadow:0 14px 28px -8px rgba(136,19,55,.45)}
+.danger{border-radius:16px;font-weight:800}
+.danger:hover{background:var(--db-grad);border-color:transparent}
+
+@media(max-width:650px){
+  .welcome{padding:20px 20px;border-radius:20px;flex-direction:column;align-items:flex-start;gap:8px}
+  .welcome h2{font-size:22px}
+  .navLinks{background:transparent;border:0;padding:4px 8px}
+}

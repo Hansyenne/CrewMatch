@@ -156,11 +156,35 @@ function setupDashboardNavigation(){
   const av=document.getElementById("navAvatar"); if(av)av.onclick=()=>document.querySelector('[data-view="profile"]')?.click();
 }
 
+const ILLO_ALL_CAUGHT_UP=`<svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 96c0-8 7-13 14-11 2-10 12-17 22-14 4-11 17-17 28-12" opacity=".55"/><path d="M120 60c0-8 7-13 14-11 2-10 12-17 22-14 6-15 24-15 30 2 9 1 14 9 12 17" opacity=".35"/><g transform="translate(38 55) rotate(-18)"><path d="M0 18 L52 0 L44 18 L52 36 Z" fill="currentColor" stroke="none" opacity=".92"/></g><circle cx="150" cy="108" r="26" opacity=".9"/><path d="M139 108l8 8 16-16" opacity=".95"/></svg>`;
+const ILLO_NO_MESSAGES=`<svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="16" width="90" height="62" rx="16"/><path d="M40 78l-6 18 22-14"/><circle cx="45" cy="47" r="3" fill="currentColor" stroke="none"/><circle cx="63" cy="47" r="3" fill="currentColor" stroke="none"/><circle cx="81" cy="47" r="3" fill="currentColor" stroke="none"/><path d="M104 34c14 0 24 9 24 22 0 6-2 11-6 15l4 13-16-9" opacity=".5"/></svg>`;
+const ILLO_SELECT_CHAT=`<svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 90 L60 45 L88 65 L140 22" opacity=".85"/><path d="M110 22h30v24" opacity=".85"/><circle cx="20" cy="90" r="5" fill="currentColor" stroke="none"/><circle cx="60" cy="45" r="5" fill="currentColor" stroke="none"/><circle cx="88" cy="65" r="5" fill="currentColor" stroke="none"/></svg>`;
+const ILLO_NO_REQUESTS=`<svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="24" width="100" height="58" rx="14"/><path d="M20 34l50 32 50-32" /></svg>`;
+const ILLO_NO_MATCHES=`<svg viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M56 30c-10-12-30-9-34 5-4 15 12 27 34 42 22-15 38-27 34-42-4-14-24-17-34-5z" opacity=".5"/><path d="M96 24l6 10-9 5 9 5-6 10" opacity=".9"/></svg>`;
+function statIconSvg(name){
+  const icons={
+    people:'<circle cx="9" cy="8" r="3.4"/><path d="M2.5 19c0-4 3-6.5 6.5-6.5S15.5 15 15.5 19"/><circle cx="17" cy="9" r="2.6" opacity=".7"/><path d="M15 12.4c2.6.5 4.5 2.6 4.5 6.1" opacity=".7"/>',
+    heart:'<path d="M12 20.5C6 16.8 3 13.2 3 9.3 3 6.4 5.3 4 8.2 4c1.7 0 3.2.8 3.8 2.1C12.6 4.8 14.1 4 15.8 4 18.7 4 21 6.4 21 9.3c0 3.9-3 7.5-9 11.2z"/>',
+    calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'
+  };
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icons[name]||''}</svg>`;
+}
+function renderDiscoverStats(area,candidateCount){
+  const db=getDB();
+  const mutuals=db.matches.filter(m=>(m.user1===currentUser.id||m.user2===currentUser.id)&&m.status==="mutual").length;
+  const upcoming=db.events.filter(e=>e.attendees.includes(currentUser.id)).length;
+  const strip=document.createElement("div");
+  strip.className="statStrip";
+  strip.innerHTML=`<div class="statCard"><div class="statIcon">${statIconSvg('people')}</div><div><div class="statNum">${candidateCount}</div><div class="statLabel">New Crew Nearby</div></div></div><div class="statCard"><div class="statIcon">${statIconSvg('heart')}</div><div><div class="statNum">${mutuals}</div><div class="statLabel">Mutual Connections</div></div></div><div class="statCard"><div class="statIcon">${statIconSvg('calendar')}</div><div><div class="statNum">${upcoming}</div><div class="statLabel">Gatherings Joined</div></div></div>`;
+  area.parentElement.insertBefore(strip,area);
+}
 function renderDiscoverCard(){
   const area=document.getElementById("discoverArea"),db=getDB();
+  area.parentElement.querySelector(".statStrip")?.remove();
   const excluded=new Set([currentUser.id,...db.likes.filter(x=>x.from===currentUser.id).map(x=>x.to),...db.passes.filter(x=>x.from===currentUser.id).map(x=>x.to)]);
   const candidates=db.users.filter(u=>u.id!==currentUser.id&&!excluded.has(u.id)&&u.privacy.discoverable&&u.verified);
-  if(!candidates.length){area.innerHTML='<div class="emptyDeck"><h3>You\'re All Caught Up!</h3><p>No new verified crew profiles are available in your discovery circle right now.</p></div>';return;}
+  renderDiscoverStats(area,candidates.length);
+  if(!candidates.length){area.innerHTML=`<div class="emptyDeck"><div class="illoEmpty">${ILLO_ALL_CAUGHT_UP}<h3>You're All Caught Up!</h3><p>No new verified crew profiles are available in your discovery circle right now.</p></div></div>`;return;}
   const target=candidates[0],age=calculateAge(target.dob);
   area.innerHTML=`<div class="swipeStage"><div class="swipeHint swipeHintLeft">PASS</div><div class="swipeHint swipeHintRight">LIKE</div><div class="tinderCard swipeCard" data-swipe-id="${escapeAttr(target.id)}"><div class="tinderPhoto"><div class="online">✓ Verified Crew</div><img src="${escapeAttr(safeImageUrl(target.avatarUrl))}" alt="${escapeAttr(target.name)}" referrerpolicy="no-referrer"></div><div class="tinderBody"><div class="profileTopLine"><div><h3>${sanitizeHTML(target.name)}${age!==null?', '+age:''}</h3><div class="tinderMeta">${target.privacy.showAirline?sanitizeHTML(target.airline)+' • ':''}${sanitizeHTML(target.role)}<br>Base: ${target.privacy.showBase?sanitizeHTML(target.location):'Confidential'}</div></div><span class="swipeBadge">CREW</span></div><p class="swipeBio">${sanitizeHTML(target.bio)}</p><div class="chips">${target.purposes.map(p=>`<div class="chip">${sanitizeHTML(p)}</div>`).join("")}</div><div class="tinderActions"><button class="passBtn" data-action="pass" data-id="${escapeAttr(target.id)}" aria-label="Pass on ${escapeAttr(target.name)}">✕ <span>Pass</span></button><button class="likeBtn" data-action="like" data-id="${escapeAttr(target.id)}" aria-label="Like ${escapeAttr(target.name)}">♥ <span>Like</span></button></div><div class="swipeInstruction">Swipe left to pass · swipe right to like</div></div></div></div>`;
   attachSwipeGesture(area.querySelector('.swipeCard'), target.id);
@@ -206,8 +230,8 @@ function attachSwipeGesture(card,targetId){
 function renderMatches(){
  const db=getDB(),matchesList=document.getElementById("matchesList"),requestsList=document.getElementById("requestsList");
  const userMatches=db.matches.filter(m=>m.user1===currentUser.id||m.user2===currentUser.id),mutuals=userMatches.filter(m=>m.status==="mutual"),requests=userMatches.filter(m=>m.status==="pending"&&m.requester!==currentUser.id);
- matchesList.innerHTML=mutuals.length?mutuals.map(m=>{const id=m.user1===currentUser.id?m.user2:m.user1,u=findUser(db,id);if(!u)return"";return `<div class="match"><div class="match-info"><div class="mavatar"><img src="${escapeAttr(safeImageUrl(u.avatarUrl))}" alt="" referrerpolicy="no-referrer"></div><div><b>${sanitizeHTML(u.name)}</b><small>${sanitizeHTML(u.airline)} • ${sanitizeHTML(u.role)}</small></div></div><div class="actions"><button class="smallBtn" data-action="chat" data-id="${escapeAttr(u.id)}">Message</button><button class="smallBtn dangerBtn" data-action="unmatch" data-id="${escapeAttr(u.id)}">Unmatch</button></div></div>`;}).join(""):'<p style="font-size:12px;color:var(--text-muted)">No mutual connections yet.</p>';
- requestsList.innerHTML=requests.length?requests.map(m=>{const id=m.user1===currentUser.id?m.user2:m.user1,u=findUser(db,id);if(!u)return"";return `<div class="match"><div class="match-info"><div class="mavatar"><img src="${escapeAttr(safeImageUrl(u.avatarUrl))}" alt="" referrerpolicy="no-referrer"></div><div><b>${sanitizeHTML(u.name)}</b><small>${sanitizeHTML(u.airline)}</small></div></div><div class="actions"><button class="smallBtn" data-action="accept" data-u1="${escapeAttr(m.user1)}" data-u2="${escapeAttr(m.user2)}">Accept</button></div></div>`;}).join(""):'<p style="font-size:12px;color:var(--text-muted)">No pending requests.</p>';
+ matchesList.innerHTML=mutuals.length?mutuals.map(m=>{const id=m.user1===currentUser.id?m.user2:m.user1,u=findUser(db,id);if(!u)return"";return `<div class="match"><div class="match-info"><div class="mavatar"><img src="${escapeAttr(safeImageUrl(u.avatarUrl))}" alt="" referrerpolicy="no-referrer"></div><div><b>${sanitizeHTML(u.name)}</b><small>${sanitizeHTML(u.airline)} • ${sanitizeHTML(u.role)}</small></div></div><div class="actions"><button class="smallBtn" data-action="chat" data-id="${escapeAttr(u.id)}">Message</button><button class="smallBtn dangerBtn" data-action="unmatch" data-id="${escapeAttr(u.id)}">Unmatch</button></div></div>`;}).join(""):`<div class="illoSmall">${ILLO_NO_MATCHES}<p>No mutual connections yet.</p></div>`;
+ requestsList.innerHTML=requests.length?requests.map(m=>{const id=m.user1===currentUser.id?m.user2:m.user1,u=findUser(db,id);if(!u)return"";return `<div class="match"><div class="match-info"><div class="mavatar"><img src="${escapeAttr(safeImageUrl(u.avatarUrl))}" alt="" referrerpolicy="no-referrer"></div><div><b>${sanitizeHTML(u.name)}</b><small>${sanitizeHTML(u.airline)}</small></div></div><div class="actions"><button class="smallBtn" data-action="accept" data-u1="${escapeAttr(m.user1)}" data-u2="${escapeAttr(m.user2)}">Accept</button></div></div>`;}).join(""):`<div class="illoSmall">${ILLO_NO_REQUESTS}<p>No pending requests.</p></div>`;
 }
 function acceptRequest(u1,u2){
  if(!currentUser||![u1,u2].includes(currentUser.id))return;const db=getDB(),m=db.matches.find(x=>x.user1===u1&&x.user2===u2&&x.requester!==currentUser.id&&x.status==="pending");if(!m)return;m.status="mutual";saveDB(db);showToast("Connection accepted!");renderMatches();renderMessagesList();
@@ -233,8 +257,8 @@ window.unmatch=unmatch;
 
 function renderMessagesList(){
  const db=getDB(),list=document.getElementById("chatList"),matches=db.matches.filter(m=>(m.user1===currentUser.id||m.user2===currentUser.id)&&m.status==="mutual");
- if(!matches.length){list.innerHTML='<p style="font-size:12px;color:var(--text-muted);padding:12px">No active message threads.</p>';return;}
- list.innerHTML=matches.map(m=>{const id=m.user1===currentUser.id?m.user2:m.user1,u=findUser(db,id);if(!u)return"";return `<div class="chatContact ${activeChatTargetId===u.id?'active':''}" data-action="chat" data-id="${escapeAttr(u.id)}"><div class="mavatar"><img src="${escapeAttr(safeImageUrl(u.avatarUrl))}" alt="" referrerpolicy="no-referrer"></div><div style="min-width:0;flex:1"><b style="font-size:13px;display:block">${sanitizeHTML(u.name)}</b><small style="color:var(--text-muted);font-size:11px">${sanitizeHTML(u.airline)}</small></div></div>`;}).join("");
+ if(!matches.length){list.innerHTML=`<div class="illoSmall">${ILLO_NO_MESSAGES}<p>No active message threads yet.<br>Match with someone to start chatting.</p></div>`;return;}
+ list.innerHTML=matches.map(m=>{const id=m.user1===currentUser.id?m.user2:m.user1,u=findUser(db,id);if(!u)return"";return `<div class="chatContact ${activeChatTargetId===u.id?'active':''}" data-action="chat" data-id="${escapeAttr(u.id)}"><div class="mavatar"><img src="${escapeAttr(safeImageUrl(u.avatarUrl))}" alt="" referrerpolicy="no-referrer"></div><div class="inline-style-26"><b class="inline-style-27">${sanitizeHTML(u.name)}</b><small class="inline-style-28">${sanitizeHTML(u.airline)}</small></div></div>`;}).join("");
 }
 function openChat(targetId){
  const db=getDB(); if(!safeId(targetId)||!canMessage(db,currentUser.id,targetId)){showToast("Messaging is only available for mutual connections.","error");return;}
@@ -243,10 +267,11 @@ function openChat(targetId){
 }
 window.openChat=openChat;
 function renderActiveMessages(){
- const c=document.getElementById("messagesContainer");if(!activeChatTargetId){c.textContent="Select a conversation to start chatting.";return;}
- const db=getDB();if(!canMessage(db,currentUser.id,activeChatTargetId)){c.textContent="This conversation is unavailable.";return;}
+ const c=document.getElementById("messagesContainer");
+ if(!activeChatTargetId){c.innerHTML=`<div class="chatEmptyWrap"><div class="illoSmall">${ILLO_SELECT_CHAT}<p>Select a conversation to start chatting.</p></div></div>`;return;}
+ const db=getDB();if(!canMessage(db,currentUser.id,activeChatTargetId)){c.innerHTML=`<div class="chatEmptyWrap"><div class="illoSmall"><p>This conversation is unavailable.</p></div></div>`;return;}
  const thread=db.messages.filter(m=>(m.sender===currentUser.id&&m.receiver===activeChatTargetId)||(m.sender===activeChatTargetId&&m.receiver===currentUser.id)).sort((a,b)=>a.timestamp-b.timestamp);
- if(!thread.length){c.textContent="No messages yet. Say hello!";c.style.color="var(--text-muted)";return;}
+ if(!thread.length){c.innerHTML=`<div class="chatEmptyWrap"><div class="illoSmall">${ILLO_NO_MESSAGES}<p>No messages yet. Say hello!</p></div></div>`;return;}
  c.innerHTML="";thread.forEach(m=>{const row=document.createElement("div");row.style.cssText=`display:flex;justify-content:${m.sender===currentUser.id?'flex-end':'flex-start'}`;const bubble=document.createElement("div");bubble.className=`bubble ${m.sender===currentUser.id?'me':''}`;bubble.textContent=m.text;const time=document.createElement("span");time.className="bubbleTime";time.textContent=new Date(m.timestamp).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});bubble.appendChild(time);row.appendChild(bubble);c.appendChild(row);});c.scrollTop=c.scrollHeight;
 }
 function sendMessage(){
@@ -254,7 +279,7 @@ function sendMessage(){
 }
 
 function renderEvents(){
- const grid=document.getElementById("eventsGrid"),db=getDB();grid.innerHTML=db.events.map(ev=>{const joined=ev.attendees.includes(currentUser.id);return `<div class="event"><div><div class="date">${sanitizeHTML(ev.date)}</div><h3>${sanitizeHTML(ev.title)}</h3><p style="font-size:12px;font-weight:600;color:var(--primary);margin-bottom:8px">${sanitizeHTML(ev.location)}</p><p>${sanitizeHTML(ev.description)}</p></div><div><div class="eventStatus">${ev.attendees.length} Crew Attending</div><button class="smallBtn" style="width:100%" data-action="event" data-id="${escapeAttr(ev.id)}">${joined?'View Details / Attending':'View & Join'}</button></div></div>`;}).join("");
+ const grid=document.getElementById("eventsGrid"),db=getDB();grid.innerHTML=db.events.map(ev=>{const joined=ev.attendees.includes(currentUser.id);return `<div class="event"><div><div class="date">${sanitizeHTML(ev.date)}</div><h3>${sanitizeHTML(ev.title)}</h3><p class="inline-style-29">${sanitizeHTML(ev.location)}</p><p>${sanitizeHTML(ev.description)}</p></div><div><div class="eventStatus">${ev.attendees.length} Crew Attending</div><button class="smallBtn inline-style-30" data-action="event" data-id="${escapeAttr(ev.id)}">${joined?'View Details / Attending':'View & Join'}</button></div></div>`;}).join("");
 }
 function openEventModal(eventId){const db=getDB(),ev=db.events.find(e=>e.id===eventId);if(!ev)return;document.getElementById("modalEventTitle").textContent=ev.title;document.getElementById("modalEventBody").innerHTML=`<b>Date:</b> ${sanitizeHTML(ev.date)}<br><b>Location:</b> ${sanitizeHTML(ev.location)}<br><br>${sanitizeHTML(ev.description)}<br><br><b>Confirmed Attendees:</b> ${ev.attendees.length} Crew Members`;const b=document.getElementById("modalJoinBtn");b.textContent=ev.attendees.includes(currentUser.id)?"Leave Event":"Join Gathering";b.onclick=()=>toggleJoinEvent(ev.id);document.getElementById("eventModal").classList.add("show");}
 function closeEventModal(){document.getElementById("eventModal").classList.remove("show");}
@@ -365,5 +390,5 @@ document.addEventListener("DOMContentLoaded",async()=>{
   try{
     if(!window.crypto?.subtle||!window.crypto?.randomUUID)throw new Error("Secure crypto unavailable");
     purgeLegacyPlaintextStore();await loadStaticData();getDB();initTabs();initVerification();await initAuth();bindDelegation();bindStaticActions();await checkActiveSession();
-  }catch(e){console.error(e);document.body.innerHTML='<main style="padding:40px;font-family:system-ui"><h1>SkyConnection could not start</h1><p>Please use a modern browser over HTTPS.</p></main>';}
+  }catch(e){console.error(e);document.body.innerHTML='<main class="inline-style-31"><h1>SkyConnection could not start</h1><p>Please use a modern browser over HTTPS.</p></main>';}
 });

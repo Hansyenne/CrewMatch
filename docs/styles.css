@@ -930,3 +930,51 @@ body{background:var(--cm-cream)}
   .welcome h2{font-size:22px}
   .navLinks{background:transparent;border:0;padding:4px 8px}
 }
+
+/* --- Nav icons --- */
+.navLinks button{display:flex;align-items:center;gap:7px;flex-direction:row}
+.navIcon{width:17px;height:17px;flex-shrink:0;opacity:.85}
+.navLinks button.active .navIcon{opacity:1}
+@media(max-width:650px){
+  .navLinks button{flex-direction:column;gap:3px;padding:8px 12px;min-height:56px}
+  .navIcon{width:19px;height:19px}
+  .navLinks button span{font-size:9.5px}
+}
+
+/* --- Decorative welcome-banner illustration: dotted flight route + plane --- */
+.welcome{background:var(--db-grad),var(--db-grad);isolation:isolate}
+.welcome:after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  opacity:.55;mix-blend-mode:soft-light;
+  background-repeat:no-repeat;background-position:right -10px top -10px;background-size:340px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 220' fill='none'%3E%3Cpath d='M10 190 C 90 160, 120 60, 210 45 S 320 20, 330 15' stroke='white' stroke-width='2' stroke-dasharray='1 10' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='190' r='4' fill='white'/%3E%3Cg transform='translate(300 8) rotate(35)'%3E%3Cpath d='M0 8 L28 0 L24 8 L28 16 Z' fill='white'/%3E%3C/g%3E%3Ccircle cx='250' cy='150' r='60' stroke='white' stroke-width='1' opacity='.5'/%3E%3Ccircle cx='60' cy='40' r='34' stroke='white' stroke-width='1' opacity='.4'/%3E%3C/svg%3E");
+}
+.welcome > *{position:relative;z-index:1}
+.content{
+  background-image:radial-gradient(rgba(136,19,55,.05) 1px,transparent 1.5px);
+  background-size:22px 22px;background-position:-8px -8px;
+}
+
+/* --- Quick stats strip on Discover --- */
+.statStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.statCard{
+  background:#fff;border:1px solid rgba(136,19,55,.08);border-radius:20px;padding:18px 20px;
+  box-shadow:var(--db-shadow-md);display:flex;align-items:center;gap:14px;
+}
+.statIcon{
+  width:42px;height:42px;border-radius:13px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--db-grad-soft);color:var(--primary);
+}
+.statIcon svg{width:20px;height:20px}
+.statNum{font:800 22px "Playfair Display",serif;line-height:1;color:var(--db-ink)}
+.statLabel{font-size:11px;color:var(--text-muted);font-weight:700;margin-top:3px;letter-spacing:.2px}
+@media(max-width:650px){.statStrip{grid-template-columns:1fr;gap:10px}.statCard{padding:14px 16px}}
+
+/* --- Illustrated empty states --- */
+.illoEmpty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;color:var(--primary)}
+.illoEmpty svg{width:150px;height:auto;margin-bottom:6px;opacity:.92}
+.illoEmpty h3{margin:0 0 4px;color:var(--text-main)}
+.illoSmall{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:28px 12px;color:var(--primary)}
+.illoSmall svg{width:74px;height:auto;opacity:.85;margin-bottom:2px}
+.illoSmall p{font-size:12px;margin:0;color:var(--text-muted)}
+.chatEmptyWrap{flex:1;display:flex;align-items:center;justify-content:center}
